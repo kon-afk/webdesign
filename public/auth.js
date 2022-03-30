@@ -1,9 +1,9 @@
 const ref2 = firebase.database().ref("UserList");
 const signupForm = document.querySelector("#signup-form");
+
 signupForm.addEventListener("submit", event => {
     createUser(event);
 });
-
 
 const signupFeedback = document.querySelector('#feedback-msg-signup');
 const signupModal = new bootstrap.Modal(document.querySelector('#modal-signup'));
@@ -12,7 +12,8 @@ function createUser(event) {
     event.preventDefault();
     const email = signupForm['input-email-signup'].value;
     const pwd = signupForm['input-password-signup'].value;
-    const name = signupForm['input-name-signup'].value;
+    const nickname = signupForm['input-name-signup'].value;
+    
     const user = firebase
         .auth()
         .createUserWithEmailAndPassword(email, pwd)
@@ -30,16 +31,7 @@ function createUser(event) {
             signupFeedback.innerText = `${error.message}`;
             signupForm.reset();
         });
-    
-    user.updateProfile({
-        displayName: name,
-    }).then(function() {
-            // Update successful.
-            console.log('User Profile Updated Successfully');
-    }).catch(function(error) {
-            // An error happened.
-            console.log("Cannot Create Profile")
-    });
+
 }
 
 
@@ -57,7 +49,8 @@ const btnCancel= document.querySelectorAll('.btn-cancel').forEach(btn => {
 
 firebase.auth().onAuthStateChanged((user) => {
     if (user) {
-        console.log(user)
+        console.log(user);
+        
     } else {
         console.log('Unavailable user')
     }
