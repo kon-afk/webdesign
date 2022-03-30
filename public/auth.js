@@ -1,5 +1,3 @@
-
-
 const ref2 = firebase.database().ref("UserList");
 const signupForm = document.querySelector("#signup-form");
 signupForm.addEventListener("submit", event => {
