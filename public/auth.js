@@ -1,5 +1,11 @@
+
+
+const ref2 = firebase.database().ref("UserList");
 const signupForm = document.querySelector("#signup-form");
-signupForm.addEventListener("submit", createUser);
+signupForm.addEventListener("submit", event => {
+    createUser(event);
+});
+
 
 const signupFeedback = document.querySelector('#feedback-msg-signup');
 const signupModal = new bootstrap.Modal(document.querySelector('#modal-signup'));
@@ -8,7 +14,8 @@ function createUser(event) {
     event.preventDefault();
     const email = signupForm['input-email-signup'].value;
     const pwd = signupForm['input-password-signup'].value;
-    firebase
+    const name = signupForm['input-name-signup'].value;
+    const user = firebase
         .auth()
         .createUserWithEmailAndPassword(email, pwd)
         .then(() => {
@@ -25,7 +32,18 @@ function createUser(event) {
             signupFeedback.innerText = `${error.message}`;
             signupForm.reset();
         });
+    
+    user.updateProfile({
+        displayName: name,
+    }).then(function() {
+            // Update successful.
+            console.log('User Profile Updated Successfully');
+    }).catch(function(error) {
+            // An error happened.
+            console.log("Cannot Create Profile")
+    });
 }
+
 
 //Cancel
 const btnCancel= document.querySelectorAll('.btn-cancel').forEach(btn => {
@@ -81,6 +99,7 @@ function loginUser(event) {
             loginFeedback.innerText = `${error.message}`;
             loginForm.reset();
         });
+    
 }
 
 firebase.auth().onAuthStateChanged((user) => {

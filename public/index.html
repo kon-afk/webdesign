@@ -3,7 +3,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>62070001 - Lab08</title>
+  <title>Tic Tac Top</title>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-analytics.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
@@ -11,12 +11,13 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <link rel="stylesheet" href="style.css">
 
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <nav class="navbar navbar-expand-lg navbar-dark navi">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Lab 09 - Basic Tic-Tac-Toe</a>
+      <a class="navbar-brand" href="#"><i class="bi bi-house-door-fill"></i> Tic-Tac-Top</a>
       <nav>
         <button type="button" id="btnSignup" class="btn btn-outline-light logged-out" data-bs-toggle="modal"
           data-bs-target="#modal-signup"><i class="bi bi-person-plus-fill"></i>Sign up</button>
@@ -31,7 +32,7 @@
     </div>
   </nav>
 
-  <h1 class="display-1 text-center">Tic-Tac-Toe</h1>
+  <h1 class="display-1 text-center">Tic-Tac-Top</h1>
   <div class="container logged-in">
     <form class="form-inline row">
       <div class="form-group mb-2 row col-10">
@@ -123,6 +124,8 @@
         </div>
         <form action="" class="" id="signup-form">
           <div class="modal-body mb-3">
+            <input type="name" class="form-control" id="input-name-signup" placeholder="Nickname" required>
+            <br/>
             <input type="email" class="form-control" id="input-email-signup" placeholder="Email" required>
             <br/>
             <input type="password" class="form-control" id="input-password-signup" placeholder="Password" required>

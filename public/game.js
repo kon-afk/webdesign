@@ -14,7 +14,7 @@ function setupUI(user) {
     if (user) {
         ref_userdata.once('value' , snapshot => {
             if(snapshot.child(user.uid).exists()){
-                document.querySelector('#user-profile-name').innerHTML = user.email+" ("+ snapshot.child(user.uid).val() +")";
+                document.querySelector('#user-profile-name').innerHTML = user.displayName + " " + user.email+" ("+ snapshot.child(user.uid).val() +")";
             }else{
                 ref_userdata.update({
                     [user.uid]:0,
