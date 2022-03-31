@@ -8,3 +8,51 @@ body {
     background-color: #30475E;
 }
 
+.scoreboard-con{
+    width: 60%;
+}
+
+
+
+.scoreboard {
+    width: 100%;
+}
+
+.scoreboard tbody{
+    height: 200px;
+    overflow-y: auto;
+    
+    display:block;
+    width: 100%;
+}
+
+tbody::-webkit-scrollbar {
+    display: none;
+}
+
+.scoreboard tr{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.scoreboard td{
+    flex: 1;
+
+}
+
+.scoreboard th {
+    flex: 1 1 calc(100% / 3);
+}
+
+.menu-button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-menu {
+    margin: 10px;
+    background-color: white;
+    border: 5px solid #30475E;
+}

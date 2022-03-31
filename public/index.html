@@ -33,6 +33,7 @@
   </nav>
 
   <h1 class="display-1 text-center">Tic-Tac-Top</h1>
+  <h4 class="display-5 text-center">The battle royale tic-tac-toe game</h4>
   <div class="container logged-in">
     <form class="form-inline row">
       <div class="form-group mb-2 row col-10">
@@ -64,13 +65,72 @@
     <button type="button" id="btnStartGame" class="btn btn-success mx-1 logged-in" disabled>START GAME</button>
     <button type="button" id="btnTerminateGame" class="btn btn-warning mx-1 logged-in" disabled>END GAME</button>
   </div>
-  <div class="container d-flex justify-content-center mb-2">
-    <h4 id="GameStatus-text">Waiting for player...</h4>
+  <div class="container  d-flex justify-content-center mb-2">
+    <h4 class="logged-in" id="GameStatus-text">Waiting for player...</h4>
   </div>
 
-  <!-- table -->
+  <!-- MAIN PAGE -->
 
-  <div class="container-md border w-50">
+  <!-- SCOREBOARD -->
+  <div class="container d-flex justify-content-center">
+    <div class="container scoreboard-con logged-out ">
+      <table class="table scoreboard  table-bordered text-center">
+        <thead >
+          <tr >
+            <th scope="col">Rank</th>
+            <th scope="col">Name</th>
+            <th scope="col">Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td scope="row">1</td>
+            <td>Mark</td>
+            <td>500</td>
+          </tr>
+          <tr>
+            <td scope="row">1</td>
+            <td>Mark</td>
+            <td>500</td>
+          </tr>
+          <tr>
+            <td scope="row">1</td>
+            <td>Mark</td>
+            <td>500</td>
+          </tr>
+          <tr>
+            <td scope="row">1</td>
+            <td>Mark</td>
+            <td>500</td>
+          </tr>
+          <tr>
+            <td scope="row">1</td>
+            <td>Mark</td>
+            <td>500</td>
+          </tr>
+          <tr>
+            <td scope="row">1</td>
+            <td>Mark</td>
+            <td>500</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+  
+
+  <!-- MENU BUTTON -->
+
+  <div class="container menu-button ">
+    <button type="button" id="btnHost" class="btn btn-menu btn-host logged-out"><p class="display-4">HOST</p></button>
+    <button type="button" id="btnJoinHost" class="btn  btn-menu btn-joinhost logged-out"><p class="display-4">JOIN</p></button>
+  </div>
+  
+
+  <!-- TABLE -->
+
+  <div class="container-md logged-in border w-50">
     <div class="row" id="row-1">
       <div
         style="height: 6vh"
