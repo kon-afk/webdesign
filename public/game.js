@@ -127,7 +127,7 @@ ref_game.on('value', snapshot => {
     if(snapshot.child('game-1').child('table').exists()){
         tableCols.forEach(col => {
             let col_val = snapshot.child('game-1').child('table').child(col.id).val();
-            col.innerHTML = `<button type="button" class="display-4 btn btn-white w-100" style="height: 10rem;"> ${col_val} </button>`;
+            col.innerHTML = `<button type="button" class="display-4 btn btn-white w-100" style="height: 4rem;"> ${col_val} </button>`;
         });
     }
 
@@ -417,4 +417,20 @@ function gameResult(){
         }
     });
     return result;
+}
+
+const pageAccessedByReload = (
+    (window.performance.navigation && window.performance.navigation.type === 1) ||
+      window.performance
+        .getEntriesByType('navigation')
+        .map((nav) => nav.type)
+        .includes('reload')
+        
+);
+if(pageAccessedByReload){
+    ref_game.child('game-1').remove();
+    ref_game.child('game-1').update({[`o-slot`]:"Empty",});
+    ref_game.child('game-1').update({[`x-slot`]:"Empty",});
+
+
 }

@@ -25,6 +25,10 @@ function createUser(event) {
             }, 1000);
             signupForm.reset();
             signupFeedback.innerHTML = ``
+            const user = firebase.auth().currentUser;
+        return user.updateProfile({
+          displayName: nickname
+        })
         })
         .catch((error) => {
             signupFeedback.style = `color:crimson`;
