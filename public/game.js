@@ -385,36 +385,73 @@ function gameResult(){
             }
         });
         this_turn_symbol = snapshot.child('Turn').val();
-        if(snapshot.child('table').child('row-1-col-1').val() == this_turn_symbol && snapshot.child('table').child('row-1-col-2').val() == this_turn_symbol && snapshot.child('table').child('row-1-col-3').val() == this_turn_symbol){
-            result = this_turn_symbol;
-        }
-        else if(snapshot.child('table').child('row-2-col-1').val() == this_turn_symbol && snapshot.child('table').child('row-2-col-2').val() == this_turn_symbol && snapshot.child('table').child('row-2-col-3').val() == this_turn_symbol){
-            result = this_turn_symbol;
-        }
-        else if(snapshot.child('table').child('row-3-col-1').val() == this_turn_symbol && snapshot.child('table').child('row-3-col-2').val() == this_turn_symbol && snapshot.child('table').child('row-3-col-3').val() == this_turn_symbol){
-            result = this_turn_symbol;
-        }
-        else if(snapshot.child('table').child('row-1-col-1').val() == this_turn_symbol && snapshot.child('table').child('row-2-col-1').val() == this_turn_symbol && snapshot.child('table').child('row-3-col-1').val() == this_turn_symbol){
-            result = this_turn_symbol;
-        }
-        else if(snapshot.child('table').child('row-1-col-2').val() == this_turn_symbol && snapshot.child('table').child('row-2-col-2').val() == this_turn_symbol && snapshot.child('table').child('row-3-col-2').val() == this_turn_symbol){
-            result = this_turn_symbol;
-        }
-        else if(snapshot.child('table').child('row-1-col-3').val() == this_turn_symbol && snapshot.child('table').child('row-2-col-3').val() == this_turn_symbol && snapshot.child('table').child('row-3-col-3').val() == this_turn_symbol){
-            result = this_turn_symbol;
-        }  
-        else if(snapshot.child('table').child('row-1-col-1').val() == this_turn_symbol && snapshot.child('table').child('row-2-col-2').val() == this_turn_symbol && snapshot.child('table').child('row-3-col-3').val() == this_turn_symbol){
-            result = this_turn_symbol;
-        }  
-        else if(snapshot.child('table').child('row-1-col-3').val() == this_turn_symbol && snapshot.child('table').child('row-2-col-2').val() == this_turn_symbol && snapshot.child('table').child('row-3-col-1').val() == this_turn_symbol){
-            result = this_turn_symbol;
-        }                 
-        else if(col_val_empty > 0){
-            result = 'no';
-        }
-        else {
-            result = 'draw';
-        }
+        for (let i = 1; i < 11; i++) {
+            for (let j = 1; j < 11; j++) {
+                if(snapshot.child('table').child(`row-${i}-col-${j}`).val() == this_turn_symbol 
+                && snapshot.child('table').child(`row-${i}-col-${j+1}`).val() == this_turn_symbol 
+                && snapshot.child('table').child(`row-${i}-col-${j+2}`).val() == this_turn_symbol
+                && snapshot.child('table').child(`row-${i}-col-${j+3}`).val() == this_turn_symbol){
+                    result = this_turn_symbol;
+                    return result;
+                }
+                else if(snapshot.child('table').child(`row-${i}-col-${j}`).val() == this_turn_symbol 
+                && snapshot.child('table').child(`row-${i+1}-col-${j}`).val() == this_turn_symbol 
+                && snapshot.child('table').child(`row-${i+2}-col-${j}`).val() == this_turn_symbol
+                && snapshot.child('table').child(`row-${i+3}-col-${j}`).val() == this_turn_symbol){
+                    result = this_turn_symbol;
+                    return result;
+                }
+                else if(snapshot.child('table').child(`row-${i}-col-${j}`).val() == this_turn_symbol 
+                && snapshot.child('table').child(`row-${i+1}-col-${j+1}`).val() == this_turn_symbol 
+                && snapshot.child('table').child(`row-${i+2}-col-${j+2}`).val() == this_turn_symbol
+                && snapshot.child('table').child(`row-${i+3}-col-${j+3}`).val() == this_turn_symbol){
+                    result = this_turn_symbol;
+                    return result;
+                }
+                else if(snapshot.child('table').child(`row-${i}-col-${j}`).val() == this_turn_symbol 
+                && snapshot.child('table').child(`row-${i+1}-col-${j-1}`).val() == this_turn_symbol 
+                && snapshot.child('table').child(`row-${i+2}-col-${j-2}`).val() == this_turn_symbol
+                && snapshot.child('table').child(`row-${i+3}-col-${j-3}`).val() == this_turn_symbol){
+                    result = this_turn_symbol;
+                    return result;
+                }
+                else if(i== 10 && j == 10 && col_val_empty > 0){
+                    result = 'no';
+                    return result;
+                }
+            }
+          }
+
+        // if(snapshot.child('table').child('row-1-col-1').val() == this_turn_symbol && snapshot.child('table').child('row-1-col-2').val() == this_turn_symbol && snapshot.child('table').child('row-1-col-3').val() == this_turn_symbol){
+        //     result = this_turn_symbol;
+        // }
+        // else if(snapshot.child('table').child('row-2-col-1').val() == this_turn_symbol && snapshot.child('table').child('row-2-col-2').val() == this_turn_symbol && snapshot.child('table').child('row-2-col-3').val() == this_turn_symbol){
+        //     result = this_turn_symbol;
+        // }
+        // else if(snapshot.child('table').child('row-3-col-1').val() == this_turn_symbol && snapshot.child('table').child('row-3-col-2').val() == this_turn_symbol && snapshot.child('table').child('row-3-col-3').val() == this_turn_symbol){
+        //     result = this_turn_symbol;
+        // }
+        // else if(snapshot.child('table').child('row-1-col-1').val() == this_turn_symbol && snapshot.child('table').child('row-2-col-1').val() == this_turn_symbol && snapshot.child('table').child('row-3-col-1').val() == this_turn_symbol){
+        //     result = this_turn_symbol;
+        // }
+        // else if(snapshot.child('table').child('row-1-col-2').val() == this_turn_symbol && snapshot.child('table').child('row-2-col-2').val() == this_turn_symbol && snapshot.child('table').child('row-3-col-2').val() == this_turn_symbol){
+        //     result = this_turn_symbol;
+        // }
+        // else if(snapshot.child('table').child('row-1-col-3').val() == this_turn_symbol && snapshot.child('table').child('row-2-col-3').val() == this_turn_symbol && snapshot.child('table').child('row-3-col-3').val() == this_turn_symbol){
+        //     result = this_turn_symbol;
+        // }  
+        // else if(snapshot.child('table').child('row-1-col-1').val() == this_turn_symbol && snapshot.child('table').child('row-2-col-2').val() == this_turn_symbol && snapshot.child('table').child('row-3-col-3').val() == this_turn_symbol){
+        //     result = this_turn_symbol;
+        // }  
+        // else if(snapshot.child('table').child('row-1-col-3').val() == this_turn_symbol && snapshot.child('table').child('row-2-col-2').val() == this_turn_symbol && snapshot.child('table').child('row-3-col-1').val() == this_turn_symbol){
+        //     result = this_turn_symbol;
+        // }                 
+        // else if(col_val_empty > 0){
+        //     result = 'no';
+        // }
+        // else {
+        //     result = 'draw';
+        // }
     });
     return result;
 }
