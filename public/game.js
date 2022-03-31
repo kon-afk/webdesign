@@ -422,36 +422,6 @@ function gameResult(){
             }
           }
 
-        // if(snapshot.child('table').child('row-1-col-1').val() == this_turn_symbol && snapshot.child('table').child('row-1-col-2').val() == this_turn_symbol && snapshot.child('table').child('row-1-col-3').val() == this_turn_symbol){
-        //     result = this_turn_symbol;
-        // }
-        // else if(snapshot.child('table').child('row-2-col-1').val() == this_turn_symbol && snapshot.child('table').child('row-2-col-2').val() == this_turn_symbol && snapshot.child('table').child('row-2-col-3').val() == this_turn_symbol){
-        //     result = this_turn_symbol;
-        // }
-        // else if(snapshot.child('table').child('row-3-col-1').val() == this_turn_symbol && snapshot.child('table').child('row-3-col-2').val() == this_turn_symbol && snapshot.child('table').child('row-3-col-3').val() == this_turn_symbol){
-        //     result = this_turn_symbol;
-        // }
-        // else if(snapshot.child('table').child('row-1-col-1').val() == this_turn_symbol && snapshot.child('table').child('row-2-col-1').val() == this_turn_symbol && snapshot.child('table').child('row-3-col-1').val() == this_turn_symbol){
-        //     result = this_turn_symbol;
-        // }
-        // else if(snapshot.child('table').child('row-1-col-2').val() == this_turn_symbol && snapshot.child('table').child('row-2-col-2').val() == this_turn_symbol && snapshot.child('table').child('row-3-col-2').val() == this_turn_symbol){
-        //     result = this_turn_symbol;
-        // }
-        // else if(snapshot.child('table').child('row-1-col-3').val() == this_turn_symbol && snapshot.child('table').child('row-2-col-3').val() == this_turn_symbol && snapshot.child('table').child('row-3-col-3').val() == this_turn_symbol){
-        //     result = this_turn_symbol;
-        // }  
-        // else if(snapshot.child('table').child('row-1-col-1').val() == this_turn_symbol && snapshot.child('table').child('row-2-col-2').val() == this_turn_symbol && snapshot.child('table').child('row-3-col-3').val() == this_turn_symbol){
-        //     result = this_turn_symbol;
-        // }  
-        // else if(snapshot.child('table').child('row-1-col-3').val() == this_turn_symbol && snapshot.child('table').child('row-2-col-2').val() == this_turn_symbol && snapshot.child('table').child('row-3-col-1').val() == this_turn_symbol){
-        //     result = this_turn_symbol;
-        // }                 
-        // else if(col_val_empty > 0){
-        //     result = 'no';
-        // }
-        // else {
-        //     result = 'draw';
-        // }
     });
     return result;
 }
