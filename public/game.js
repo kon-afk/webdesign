@@ -1,4 +1,4 @@
-const ref_game = firebase.database().ref('Game');
+const ref_game = firebase.database().ref('Game-data');
 const ref_userdata = firebase.database().ref('UserData');
 const btnJoins = document.querySelectorAll('.btn-join');
 btnJoins.forEach(btnJoin => btnJoin.addEventListener('click', joinGame));
