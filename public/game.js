@@ -358,11 +358,11 @@ function getGameInfo(snapshot) {
                 document.getElementById('GameStatus-text').innerHTML = "Winner: X";
                 if(snapshot.child('game-1').child('x-slot').val() == user_email){
                     ref_userdata.once('value', userData => {
-                        var user_score_x = userData.child(user_uid).val() + 3;
+                        var user_score_1 = userData.child(user_uid).val() + 3;
                         ref_userdata.update({
-                            [user_uid]: user_score_x,
+                            [user_uid]: user_score_1,
                         });
-                        document.querySelector('#user-profile-name').innerHTML = user_email +" ("+ user_score_x +")";
+                        document.querySelector('#user-profile-name').innerHTML = user_email +" ("+ user_score_1 +")";
                     });
                 }
             }
@@ -370,13 +370,41 @@ function getGameInfo(snapshot) {
                 document.getElementById('GameStatus-text').innerHTML = "Winner: O";
                 if(snapshot.child('game-1').child('o-slot').val() == user_email){
                     ref_userdata.once('value', userData => {
-                        var user_score_o = userData.child(user_uid).val() + 3;
-                        console.log(user_score_o);
+                        var user_score_2 = userData.child(user_uid).val() + 3;
+                        console.log(user_score_2);
                         ref_userdata.update({
-                            [user_uid]: user_score_o,
+                            [user_uid]: user_score_2,
                         });
-                        console.log(user_score_o);
-                        document.querySelector('#user-profile-name').innerHTML = user_email +" ("+ user_score_o +")";
+                        console.log(user_score_2);
+                        document.querySelector('#user-profile-name').innerHTML = user_email +" ("+ user_score_2 +")";
+                    });
+                }
+            }
+            else if(snapshot.child('game-1').child('GameResult').val() == '◻'){
+                document.getElementById('GameStatus-text').innerHTML = "Winner: ◻";
+                if(snapshot.child('game-1').child('◻-slot').val() == user_email){
+                    ref_userdata.once('value', userData => {
+                        var user_score_3 = userData.child(user_uid).val() + 3;
+                        console.log(user_score_3);
+                        ref_userdata.update({
+                            [user_uid]: user_score_3,
+                        });
+                        console.log(user_score_3);
+                        document.querySelector('#user-profile-name').innerHTML = user_email +" ("+ user_score_3 +")";
+                    });
+                }
+            }
+            else if(snapshot.child('game-1').child('GameResult').val() == '∆'){
+                document.getElementById('GameStatus-text').innerHTML = "Winner: ∆";
+                if(snapshot.child('game-1').child('∆-slot').val() == user_email){
+                    ref_userdata.once('value', userData => {
+                        var user_score_4 = userData.child(user_uid).val() + 3;
+                        console.log(user_score_4);
+                        ref_userdata.update({
+                            [user_uid]: user_score_4,
+                        });
+                        console.log(user_score_4);
+                        document.querySelector('#user-profile-name').innerHTML = user_email +" ("+ user_score_4 +")";
                     });
                 }
             }
