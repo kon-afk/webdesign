@@ -281,10 +281,12 @@ function getGameInfo(snapshot) {
                         col.disabled = true;
                         col.removeEventListener('click', add_X_toCol);
                         col.removeEventListener('click', add_O_toCol);
+                        col.removeEventListener('click', add_s_toCol);
+                        col.removeEventListener('click', add_t_toCol);
                     });
                 }
                 
-            }else{
+            }else if (turn == "O"){
                 let L_turn = turn.toLowerCase();
                 let L_currentPlayer = currentPlayer.toLowerCase();
                 document.getElementById('GameStatus-text').innerHTML = 'Turn: O';
@@ -299,14 +301,58 @@ function getGameInfo(snapshot) {
                         col.disabled = true;
                         col.removeEventListener('click', add_X_toCol);
                         col.removeEventListener('click', add_O_toCol);
+                        col.removeEventListener('click', add_s_toCol);
+                        col.removeEventListener('click', add_t_toCol);
+                    });
+                }
+            }else if (turn == "◻"){
+                let L_turn = turn.toLowerCase();
+                let L_currentPlayer = currentPlayer.toLowerCase();
+                document.getElementById('GameStatus-text').innerHTML = 'Turn: ◻';
+                if(L_currentPlayer == L_turn){
+                    tableCols.forEach(col => {
+                        col.disabled = false;
+                        col.addEventListener('click', add_s_toCol);
+                    });
+                }
+                else{
+                    tableCols.forEach(col => {
+                        col.disabled = true;
+                        col.removeEventListener('click', add_X_toCol);
+                        col.removeEventListener('click', add_O_toCol);
+                        col.removeEventListener('click', add_s_toCol);
+                        col.removeEventListener('click', add_t_toCol);
+                    });
+                }
+            }else if (turn == "∆"){
+                let L_turn = turn.toLowerCase();
+                let L_currentPlayer = currentPlayer.toLowerCase();
+                document.getElementById('GameStatus-text').innerHTML = 'Turn: ∆';
+                if(L_currentPlayer == L_turn){
+                    tableCols.forEach(col => {
+                        col.disabled = false;
+                        col.addEventListener('click', add_t_toCol);
+                    });
+                }
+                else{
+                    tableCols.forEach(col => {
+                        col.disabled = true;
+                        col.removeEventListener('click', add_X_toCol);
+                        col.removeEventListener('click', add_O_toCol);
+                        col.removeEventListener('click', add_s_toCol);
+                        col.removeEventListener('click', add_t_toCol);
+
                     });
                 }
             }
+            
         }else if(gameStatus == 'Finish'){
             tableCols.forEach(col => {
                 col.disabled = true;
                 col.removeEventListener('click', add_X_toCol);
                 col.removeEventListener('click', add_O_toCol);
+                col.removeEventListener('click', add_s_toCol);
+                col.removeEventListener('click', add_t_toCol);
             });
             if(snapshot.child('game-1').child('GameResult').val() == 'X'){
                 document.getElementById('GameStatus-text').innerHTML = "Winner: X";
@@ -456,6 +502,64 @@ function add_O_toCol(event){
             });
         }else if (game_result == 'no'){
             ref_game.child('game-1').update({
+                ['Turn']:"◻",
+            });
+        }else if (game_result == 'draw'){
+            ref_game.child('game-1').update({
+                ['GameResult']:"draw",
+                ['GameStatus']: 'Finish',
+            });
+        }
+    }
+}
+
+function add_s_toCol(event){
+    var col_val = '';
+    var game_result = '';
+    ref_game.child('game-1').child('table').once('value', snapshot => {
+        col_val = snapshot.child(event.currentTarget.id).val();
+    });
+    if(col_val == ''){
+        ref_game.child('game-1').child('table').update({
+            [event.currentTarget.id]:"◻",
+        });
+        game_result = gameResult();
+        if(game_result == '◻'){
+            ref_game.child('game-1').update({
+                ['GameResult']:"◻",
+                ['GameStatus']: 'Finish',
+            });
+        }else if (game_result == 'no'){
+            ref_game.child('game-1').update({
+                ['Turn']:"∆",
+            });
+        }else if (game_result == 'draw'){
+            ref_game.child('game-1').update({
+                ['GameResult']:"draw",
+                ['GameStatus']: 'Finish',
+            });
+        }
+    }
+}
+
+function add_t_toCol(event){
+    var col_val = '';
+    var game_result = '';
+    ref_game.child('game-1').child('table').once('value', snapshot => {
+        col_val = snapshot.child(event.currentTarget.id).val();
+    });
+    if(col_val == ''){
+        ref_game.child('game-1').child('table').update({
+            [event.currentTarget.id]:"∆",
+        });
+        game_result = gameResult();
+        if(game_result == '∆'){
+            ref_game.child('game-1').update({
+                ['GameResult']:"∆",
+                ['GameStatus']: 'Finish',
+            });
+        }else if (game_result == 'no'){
+            ref_game.child('game-1').update({
                 ['Turn']:"X",
             });
         }else if (game_result == 'draw'){
@@ -519,14 +623,14 @@ function gameResult(){
     return result;
 }
 
-const pageAccessedByReload = (
-    (window.performance.navigation && window.performance.navigation.type === 1) ||
-      window.performance
-        .getEntriesByType('navigation')
-        .map((nav) => nav.type)
-        .includes('reload')
+// const pageAccessedByReload = (
+//     (window.performance.navigation && window.performance.navigation.type === 1) ||
+//       window.performance
+//         .getEntriesByType('navigation')
+//         .map((nav) => nav.type)
+//         .includes('reload')
         
-);
+// );
 // if(pageAccessedByReload){
 //     ref_game.child('game-1').remove();
 //     ref_game.child('game-1').update({[`o-slot`]:"Empty",});
