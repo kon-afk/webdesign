@@ -24,19 +24,35 @@ function setupUI(user) {
             user_uid = user.uid;
         });
         ref_game.once('value' , snapshot => {
-            if(snapshot.child('game-1').child('x-slot').val() != 'Empty' && snapshot.child('game-1').child("user-x-email") != user.email){
-                document.getElementById('btnJoin-x').disabled = true;
-                document.getElementById('btnCancel-x').disabled = true;
-            }else if(snapshot.child('game-1').child('x-slot').val() == 'Empty' && snapshot.child('game-1').child("user-o-email") != user.email){
+            if(snapshot.child('game-1').child('x-slot').val() == 'Empty'){
                 document.getElementById('btnJoin-x').disabled = false;
                 document.getElementById('btnCancel-x').disabled = true;
+            }else if(snapshot.child('game-1').child('x-slot').val() ==  user.email){
+                document.getElementById('btnJoin-x').disabled = true;
+                document.getElementById('btnCancel-x').disabled = false;
             }
-            if(snapshot.child('game-1').child('o-slot').val() != 'Empty' && snapshot.child('game-1').child("user-o-email") != user.email){
-                document.getElementById('btnJoin-o').disabled = true;
-                document.getElementById('btnCancel-o').disabled = true;
-            }else if(snapshot.child('game-1').child('o-slot').val() == 'Empty' && snapshot.child('game-1').child("user-x-email") != user.email){
+            console.log("x")
+            if(snapshot.child('game-1').child('o-slot').val() == 'Empty'){
                 document.getElementById('btnJoin-o').disabled = false;
                 document.getElementById('btnCancel-o').disabled = true;
+            }else if(snapshot.child('game-1').child('o-slot').val() == user.email){
+                document.getElementById('btnJoin-o').disabled = true;
+                document.getElementById('btnCancel-o').disabled = false;
+
+            }
+            if(snapshot.child('game-1').child('◻-slot').val() == 'Empty'){
+                document.getElementById('btnJoin-◻').disabled = false;
+                document.getElementById('btnCancel-◻').disabled = true;
+            }else if(snapshot.child('game-1').child('◻-slot').val() == user.email){
+                document.getElementById('btnJoin-◻').disabled = true;
+                document.getElementById('btnCancel-◻').disabled = false;
+            }
+            if(snapshot.child('game-1').child('∆-slot').val() == 'Empty'){
+                document.getElementById('btnJoin-∆').disabled = false;
+                document.getElementById('btnCancel-∆').disabled = true;
+            }else if(snapshot.child('game-1').child('∆-slot').val() == user.email){
+                document.getElementById('btnJoin-∆').disabled = true;
+                document.getElementById('btnCancel-∆').disabled = false;
             }
         });
         user_email = user.email;
@@ -57,6 +73,7 @@ function joinGame(event) {
         const player = btnJoinID[btnJoinID.length - 1];
         currentPlayer = player;
         const playerForm = document.getElementById(`inputPlayer-${player}`);
+        console.log(`inputPlayer-${player}`)
         if (playerForm.value == '') {
             //add player into database
             let tmpID = `user-${player}-id`;
@@ -78,11 +95,14 @@ function joinGame(event) {
 }
 
 ref_game.on('value', snapshot => {
-    let status_x = snapshot.child('game-1').child("user-x-status");
-    let status_o = snapshot.child('game-1').child("user-o-status");
+    let status_1 = snapshot.child('game-1').child("user-x-status");
+    let status_2 = snapshot.child('game-1').child("user-o-status");
+    let status_3 = snapshot.child('game-1').child("user-◻-status");
+    let status_4 = snapshot.child('game-1').child("user-∆-status");
+
 
     if(!snapshot.child('game-1').child('GameStatus').exists()){
-        if(status_x.val() == "Ready" && status_o.val() == "Ready"){
+        if(status_1.val() == "Ready" && status_2.val() == "Ready"&& status_3.val() == "Ready"&& status_4.val() == "Ready"){
             btnStartGame.disabled = false;
             document.getElementById('GameStatus-text').innerHTML = 'Click START GAME';
         }
@@ -91,7 +111,7 @@ ref_game.on('value', snapshot => {
             document.getElementById('GameStatus-text').innerHTML = 'Waiting for player...';
         }
 
-        if(snapshot.child('game-1').child('x-slot').val() == 'Empty' && snapshot.child('game-1').child('o-slot').val() != user_email){
+        if(snapshot.child('game-1').child('x-slot').val() == 'Empty' && snapshot.child('game-1').child('o-slot').val() != user_email && snapshot.child('game-1').child('◻-slot').val() != user_email && snapshot.child('game-1').child('∆-slot').val() != user_email){
             document.querySelector('#btnJoin-x').disabled = false;
             document.querySelector('#btnCancel-x').disabled = true;
         }else if(snapshot.child('game-1').child('x-slot').val() != 'Empty' && snapshot.child('game-1').child('x-slot').val() != user_email){
@@ -102,9 +122,13 @@ ref_game.on('value', snapshot => {
             document.querySelector('#btnCancel-x').disabled = false;
             document.querySelector('#btnJoin-o').disabled = true;
             document.querySelector('#btnCancel-o').disabled = true;
+            document.getElementById('btnJoin-◻').disabled = true;
+            document.getElementById('btnCancel-◻').disabled = true;
+            document.getElementById('btnJoin-∆').disabled = true;
+            document.getElementById('btnCancel-∆').disabled = true;
         }
 
-        if(snapshot.child('game-1').child('o-slot').val() == 'Empty' && snapshot.child('game-1').child('x-slot').val() != user_email){
+        if(snapshot.child('game-1').child('o-slot').val() == 'Empty' && snapshot.child('game-1').child('x-slot').val() != user_email && snapshot.child('game-1').child('◻-slot').val() != user_email && snapshot.child('game-1').child('∆-slot').val() != user_email){
             document.querySelector('#btnJoin-o').disabled = false;
             document.querySelector('#btnCancel-o').disabled = true;
         }else if(snapshot.child('game-1').child('o-slot').val() != 'Empty' && snapshot.child('game-1').child('o-slot').val() != user_email){
@@ -115,6 +139,44 @@ ref_game.on('value', snapshot => {
             document.querySelector('#btnCancel-o').disabled = false;
             document.querySelector('#btnJoin-x').disabled = true;
             document.querySelector('#btnCancel-x').disabled = true;
+            document.getElementById('btnJoin-◻').disabled = true;
+            document.getElementById('btnCancel-◻').disabled = true;
+            document.getElementById('btnJoin-∆').disabled = true;
+            document.getElementById('btnCancel-∆').disabled = true;
+        }
+
+        if(snapshot.child('game-1').child('◻-slot').val() == 'Empty' && snapshot.child('game-1').child('x-slot').val() != user_email && snapshot.child('game-1').child('o-slot').val() != user_email && snapshot.child('game-1').child('∆-slot').val() != user_email){
+            document.querySelector('#btnJoin-◻').disabled = false;
+            document.querySelector('#btnCancel-◻').disabled = true;
+        }else if(snapshot.child('game-1').child('◻-slot').val() != 'Empty' && snapshot.child('game-1').child('◻-slot').val() != user_email){
+            document.querySelector('#btnJoin-◻').disabled = true;
+            document.querySelector('#btnCancel-◻').disabled = true;
+        }else if(snapshot.child('game-1').child('◻-slot').val() == user_email){
+            document.querySelector('#btnJoin-◻').disabled = true;
+            document.querySelector('#btnCancel-◻').disabled = false;
+            document.querySelector('#btnJoin-x').disabled = true;
+            document.querySelector('#btnCancel-x').disabled = true;
+            document.getElementById('btnJoin-o').disabled = true;
+            document.getElementById('btnCancel-o').disabled = true;
+            document.getElementById('btnJoin-∆').disabled = true;
+            document.getElementById('btnCancel-∆').disabled = true;
+        }
+
+        if(snapshot.child('game-1').child('∆-slot').val() == 'Empty' && snapshot.child('game-1').child('x-slot').val() != user_email && snapshot.child('game-1').child('◻-slot').val() != user_email && snapshot.child('game-1').child('o-slot').val() != user_email){
+            document.querySelector('#btnJoin-∆').disabled = false;
+            document.querySelector('#btnCancel-∆').disabled = true;
+        }else if(snapshot.child('game-1').child('∆-slot').val() != 'Empty' && snapshot.child('game-1').child('∆-slot').val() != user_email){
+            document.querySelector('#btnJoin-∆').disabled = true;
+            document.querySelector('#btnCancel-∆').disabled = true;
+        }else if(snapshot.child('game-1').child('∆-slot').val() == user_email){
+            document.querySelector('#btnJoin-∆').disabled = true;
+            document.querySelector('#btnCancel-∆').disabled = false;
+            document.querySelector('#btnJoin-x').disabled = true;
+            document.querySelector('#btnCancel-x').disabled = true;
+            document.getElementById('btnJoin-◻').disabled = true;
+            document.getElementById('btnCancel-◻').disabled = true;
+            document.getElementById('btnJoin-o').disabled = true;
+            document.getElementById('btnCancel-o').disabled = true;
         }
         
         btnEndGame.disabled = true;
@@ -142,27 +204,57 @@ ref_game.on('value', snapshot => {
             ['x-slot']: 'Empty',
         });
     }
+    
+    if(!snapshot.child('game-1').child('◻-slot').exists()){
+        ref_game.child('game-1').update({
+            ['◻-slot']: 'Empty',
+        });
+    }
+
+    if(!snapshot.child('game-1').child('∆-slot').exists()){
+        ref_game.child('game-1').update({
+            ['∆-slot']: 'Empty',
+        });
+    }
     getGameInfo(snapshot);
 });
 
 function getGameInfo(snapshot) {
     document.getElementById('inputPlayer-x').value = '';
     document.getElementById('inputPlayer-o').value = '';
+    document.getElementById('inputPlayer-◻').value = '';
+    document.getElementById('inputPlayer-∆').value = '';
+
 
     snapshot.forEach((data) => {
         const gameInfos = data.val();
         Object.keys(gameInfos).forEach(key => {
             switch (key) {
                 case 'user-x-email':
-                    playerX = gameInfos[key];
+                    player1 = gameInfos[key];
                     document.getElementById('inputPlayer-x').value = gameInfos[key];
                     document.querySelector('#btnJoin-x').disabled = true;
+                    console.log(gameInfos[key]+' test')
                     break;
                 case 'user-o-email':
-                    playerO = gameInfos[key];
+                    player2 = gameInfos[key];
                     document.getElementById('inputPlayer-o').value = gameInfos[key];
                     document.querySelector('#btnJoin-o').disabled = true;
+                    console.log(gameInfos[key]+' test')
                     break;
+                case 'user-◻-email':
+                    player3 = gameInfos[key];
+                    document.getElementById('inputPlayer-◻').value = gameInfos[key];
+                    document.querySelector('#btnJoin-◻').disabled = true;
+                    console.log(gameInfos[key]+' test')
+                    break;
+                case 'user-∆-email':
+                    player4 = gameInfos[key];
+                    document.getElementById('inputPlayer-∆').value = gameInfos[key];
+                    document.querySelector('#btnJoin-∆').disabled = true;
+                    console.log(gameInfos[key]+' test')
+                    break;
+                    
             }
         })
     });
@@ -267,6 +359,7 @@ btnCancels.forEach((btnCancel) => {
 
 function cancelJoin(event) {
     const currentUser = firebase.auth().currentUser;
+    console.log("ca")
     if (currentUser) {
         const btnCancelID = event.currentTarget.getAttribute('id');
         const player = btnCancelID[btnCancelID.length - 1];
@@ -434,10 +527,10 @@ const pageAccessedByReload = (
         .includes('reload')
         
 );
-if(pageAccessedByReload){
-    ref_game.child('game-1').remove();
-    ref_game.child('game-1').update({[`o-slot`]:"Empty",});
-    ref_game.child('game-1').update({[`x-slot`]:"Empty",});
+// if(pageAccessedByReload){
+//     ref_game.child('game-1').remove();
+//     ref_game.child('game-1').update({[`o-slot`]:"Empty",});
+//     ref_game.child('game-1').update({[`x-slot`]:"Empty",});
 
 
-}
+// }
