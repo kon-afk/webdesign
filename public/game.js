@@ -7,8 +7,17 @@ var user_email;
 var user_uid;
 const logoutItems = document.querySelectorAll('.logged-out');
 const loginItems = document.querySelectorAll('.logged-in');
+const btnHost = document.querySelectorAll('.create-room');
 
 console.log(ref_game);
+
+// document.getElementById('btnHost').onclick = function() {showcreate()};
+
+function showcreate(){
+    btnHost.forEach(item => item.style.display = 'inline-block');
+    loginItems.forEach(item => item.style.display = 'none');
+    logoutItems.forEach(item => item.style.display = 'inline-block');
+}
 
 function setupUI(user) {
     if (user) {
@@ -58,10 +67,12 @@ function setupUI(user) {
         user_email = user.email;
         loginItems.forEach(item => item.style.display = 'inline-block');
         logoutItems.forEach(item => item.style.display = 'none');
+        btnHost.forEach(item => item.style.display = 'none');
     } else {
         document.querySelector('#user-profile-name').innerHTML = '';
         loginItems.forEach(item => item.style.display = 'none');
-        logoutItems.forEach(item => item.style.display = 'inline-block');
+        logoutItems.forEach(item => item.style.display = 'none');
+        btnHost.forEach(item => item.style.display = 'inline-block');
     }
 }
 

@@ -34,7 +34,7 @@
 
   <h1 class="display-1 text-center">Tic-Tac-Top</h1>
   <h4 class="display-5 text-center">The battle royale tic-tac-toe game</h4>
-  <div class="container logged-in">
+  <div class="container create-room">
     <form class="form-inline row">
       <div class="form-group mb-2 row col-10">
         <label for="inputPlayer-x" class="col-form-label col-2">Players X:</label>
@@ -88,18 +88,18 @@
     </form>
   </div>
   <div class="container d-flex justify-content-center mb-2">
-    <button type="button" id="btnStartGame" class="btn btn-success mx-1 logged-in" disabled>START GAME</button>
-    <button type="button" id="btnTerminateGame" class="btn btn-warning mx-1 logged-in" disabled>END GAME</button>
+    <button type="button" id="btnStartGame" class="btn btn-success mx-1 create-room" disabled>START GAME</button>
+    <button type="button" id="btnTerminateGame" class="btn btn-warning mx-1 create-room" disabled>END GAME</button>
   </div>
   <div class="container  d-flex justify-content-center mb-2">
-    <h4 class="logged-in" id="GameStatus-text">Waiting for player...</h4>
+    <h4 class="create-room" id="GameStatus-text">Waiting for player...</h4>
   </div>
 
   <!-- MAIN PAGE -->
-
+<div class="container logged-in">
   <!-- SCOREBOARD -->
   <div class="container d-flex justify-content-center">
-    <div class="container scoreboard-con logged-out ">
+    <div class="container scoreboard-con logged-in ">
       <table class="table scoreboard  table-bordered text-center">
         <thead >
           <tr >
@@ -148,15 +148,15 @@
 
   <!-- MENU BUTTON -->
 
-  <div class="container menu-button ">
-    <button type="button" id="btnHost" class="btn btn-menu btn-host logged-out"><p class="display-4">HOST</p></button>
-    <button type="button" id="btnJoinHost" class="btn  btn-menu btn-joinhost logged-out"><p class="display-4">JOIN</p></button>
+  <div class="container menu-button">
+    <button type="button" id="btnHost" class="btn btn-menu btn-host logged-in" onclick="showcreate()"><p class="display-4">HOST</p></button>
+    <button type="button" id="btnJoinHost" class="btn  btn-menu btn-joinhost logged-in"><p class="display-4">JOIN</p></button>
   </div>
   
 
   <!-- TABLE -->
 
-  <div class="container-md border">
+  <div class="container-md border create-room">
     <div class="row" id="row-1">
       <div
         style="height: 6vh"
@@ -878,6 +878,7 @@
       </div>
     </div>
   </div>
+</div>
 
   <div class="modal" id="modal-signup" tabindex="-1">
     <div class="modal-dialog">
