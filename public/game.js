@@ -7,16 +7,62 @@ var user_email;
 var user_uid;
 const logoutItems = document.querySelectorAll('.logged-out');
 const loginItems = document.querySelectorAll('.logged-in');
-const btnHost = document.querySelectorAll('.create-room');
+// var roomid = createroom();
+var roomid ;
+const btnHost = document.querySelectorAll('.btn-host');
+btnHost.forEach(btnHost => btnHost.addEventListener('click', createroom));
+const btnJoinhost = document.querySelectorAll('.btn-joinhost');
+btnJoinhost.forEach(btnJoinhost => btnJoinhost.addEventListener('click', joinroom));
 
-console.log(ref_game);
 
-// document.getElementById('btnHost').onclick = function() {showcreate()};
 
-function showcreate(){
-    btnHost.forEach(item => item.style.display = 'inline-block');
-    loginItems.forEach(item => item.style.display = 'inline-block');
-    logoutItems.forEach(item => item.style.display = 'none');
+function joinroom(){
+    console.log("123")
+
+    console.log(ref_game.value)
+    roomid='48027';
+    ref_game.once('value' , snapshot => {
+    getGameInfo(snapshot);
+    });
+    var user = firebase.auth().currentUser;
+   document.querySelector('#room-text').innerHTML = roomid;
+
+    setupUI(user)
+
+}
+
+function createroom(){
+   console.log(roomid);
+    var result           = '';
+    var characters       = '0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < 5; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * 
+ charactersLength));
+   }
+   roomid=result;
+//    roomid='24963';
+    ref_game.once('value' , snapshot => {
+        if(roomid){
+            
+            ref_game.child(roomid).update({
+            ['o-slot']: 'Empty',
+            ['x-slot']: 'Empty',
+            ['◻-slot']: 'Empty',
+            ['∆-slot']: 'Empty',
+            ['1 room-id']: roomid,})
+            getGameInfo(snapshot);
+        }else{
+    }
+    });
+    
+
+   console.log(roomid);
+   var user = firebase.auth().currentUser;
+   document.querySelector('#room-text').innerHTML = roomid;
+    setupUI(user)
+   return result;
+   
 }
 
 function setupUI(user) {
@@ -33,33 +79,32 @@ function setupUI(user) {
             user_uid = user.uid;
         });
         ref_game.once('value' , snapshot => {
-            if(snapshot.child('game-1').child('x-slot').val() == 'Empty'){
+            if(snapshot.child(roomid).child('x-slot').val() == 'Empty'){
                 document.getElementById('btnJoin-x').disabled = false;
                 document.getElementById('btnCancel-x').disabled = true;
-            }else if(snapshot.child('game-1').child('x-slot').val() ==  user.email){
+            }else if(snapshot.child(roomid).child('x-slot').val() ==  user.email){
                 document.getElementById('btnJoin-x').disabled = true;
                 document.getElementById('btnCancel-x').disabled = false;
             }
-            console.log("x")
-            if(snapshot.child('game-1').child('o-slot').val() == 'Empty'){
+            if(snapshot.child(roomid).child('o-slot').val() == 'Empty'){
                 document.getElementById('btnJoin-o').disabled = false;
                 document.getElementById('btnCancel-o').disabled = true;
-            }else if(snapshot.child('game-1').child('o-slot').val() == user.email){
+            }else if(snapshot.child(roomid).child('o-slot').val() == user.email){
                 document.getElementById('btnJoin-o').disabled = true;
                 document.getElementById('btnCancel-o').disabled = false;
 
             }
-            if(snapshot.child('game-1').child('◻-slot').val() == 'Empty'){
+            if(snapshot.child(roomid).child('◻-slot').val() == 'Empty'){
                 document.getElementById('btnJoin-◻').disabled = false;
                 document.getElementById('btnCancel-◻').disabled = true;
-            }else if(snapshot.child('game-1').child('◻-slot').val() == user.email){
+            }else if(snapshot.child(roomid).child('◻-slot').val() == user.email){
                 document.getElementById('btnJoin-◻').disabled = true;
                 document.getElementById('btnCancel-◻').disabled = false;
             }
-            if(snapshot.child('game-1').child('∆-slot').val() == 'Empty'){
+            if(snapshot.child(roomid).child('∆-slot').val() == 'Empty'){
                 document.getElementById('btnJoin-∆').disabled = false;
                 document.getElementById('btnCancel-∆').disabled = true;
-            }else if(snapshot.child('game-1').child('∆-slot').val() == user.email){
+            }else if(snapshot.child(roomid).child('∆-slot').val() == user.email){
                 document.getElementById('btnJoin-∆').disabled = true;
                 document.getElementById('btnCancel-∆').disabled = false;
             }
@@ -67,12 +112,10 @@ function setupUI(user) {
         user_email = user.email;
         loginItems.forEach(item => item.style.display = 'inline-block');
         logoutItems.forEach(item => item.style.display = 'none');
-        btnHost.forEach(item => item.style.display = 'none');
     } else {
         document.querySelector('#user-profile-name').innerHTML = '';
         loginItems.forEach(item => item.style.display = 'none');
-        logoutItems.forEach(item => item.style.display = 'none');
-        btnHost.forEach(item => item.style.display = 'inline-block');
+        logoutItems.forEach(item => item.style.display = 'inline-block');
     }
 }
 
@@ -84,13 +127,12 @@ function joinGame(event) {
         const player = btnJoinID[btnJoinID.length - 1];
         currentPlayer = player;
         const playerForm = document.getElementById(`inputPlayer-${player}`);
-        console.log(`inputPlayer-${player}`)
         if (playerForm.value == '') {
             //add player into database
             let tmpID = `user-${player}-id`;
             let tmpEmail = `user-${player}-email`;
             let tmpStatus = `user-${player}-status`;
-            ref_game.child('game-1').update({
+            ref_game.child(roomid).update({
                 [tmpID]: currentUser.uid,
                 [tmpEmail]: currentUser.email,
                 [tmpStatus]: 'Ready',
@@ -98,21 +140,22 @@ function joinGame(event) {
             console.log(currentUser.email + ' added. ');
             event.currentTarget.disabled = true;
         }
-        ref_game.child('game-1').update({
+        ref_game.child(roomid).update({
             [`${currentPlayer}-slot`]: user_email,
         });
     }
+    console.log(`inputPlayer-${player}` + ' join ' + roomid)
 
 }
 
 ref_game.on('value', snapshot => {
-    let status_1 = snapshot.child('game-1').child("user-x-status");
-    let status_2 = snapshot.child('game-1').child("user-o-status");
-    let status_3 = snapshot.child('game-1').child("user-◻-status");
-    let status_4 = snapshot.child('game-1').child("user-∆-status");
+    let status_1 = snapshot.child(roomid).child("user-x-status");
+    let status_2 = snapshot.child(roomid).child("user-o-status");
+    let status_3 = snapshot.child(roomid).child("user-◻-status");
+    let status_4 = snapshot.child(roomid).child("user-∆-status");
 
 
-    if(!snapshot.child('game-1').child('GameStatus').exists()){
+    if(!snapshot.child(roomid).child('GameStatus').exists()){
         if(status_1.val() == "Ready" && status_2.val() == "Ready"&& status_3.val() == "Ready"&& status_4.val() == "Ready"){
             btnStartGame.disabled = false;
             document.getElementById('GameStatus-text').innerHTML = 'Click START GAME';
@@ -122,13 +165,13 @@ ref_game.on('value', snapshot => {
             document.getElementById('GameStatus-text').innerHTML = 'Waiting for player...';
         }
 
-        if(snapshot.child('game-1').child('x-slot').val() == 'Empty' && snapshot.child('game-1').child('o-slot').val() != user_email && snapshot.child('game-1').child('◻-slot').val() != user_email && snapshot.child('game-1').child('∆-slot').val() != user_email){
+        if(snapshot.child(roomid).child('x-slot').val() == 'Empty' && snapshot.child(roomid).child('o-slot').val() != user_email && snapshot.child(roomid).child('◻-slot').val() != user_email && snapshot.child(roomid).child('∆-slot').val() != user_email){
             document.querySelector('#btnJoin-x').disabled = false;
             document.querySelector('#btnCancel-x').disabled = true;
-        }else if(snapshot.child('game-1').child('x-slot').val() != 'Empty' && snapshot.child('game-1').child('x-slot').val() != user_email){
+        }else if(snapshot.child(roomid).child('x-slot').val() != 'Empty' && snapshot.child(roomid).child('x-slot').val() != user_email){
             document.querySelector('#btnJoin-x').disabled = true;
             document.querySelector('#btnCancel-x').disabled = true;
-        }else if(snapshot.child('game-1').child('x-slot').val() == user_email){
+        }else if(snapshot.child(roomid).child('x-slot').val() == user_email){
             document.querySelector('#btnJoin-x').disabled = true;
             document.querySelector('#btnCancel-x').disabled = false;
             document.querySelector('#btnJoin-o').disabled = true;
@@ -139,13 +182,13 @@ ref_game.on('value', snapshot => {
             document.getElementById('btnCancel-∆').disabled = true;
         }
 
-        if(snapshot.child('game-1').child('o-slot').val() == 'Empty' && snapshot.child('game-1').child('x-slot').val() != user_email && snapshot.child('game-1').child('◻-slot').val() != user_email && snapshot.child('game-1').child('∆-slot').val() != user_email){
+        if(snapshot.child(roomid).child('o-slot').val() == 'Empty' && snapshot.child(roomid).child('x-slot').val() != user_email && snapshot.child(roomid).child('◻-slot').val() != user_email && snapshot.child(roomid).child('∆-slot').val() != user_email){
             document.querySelector('#btnJoin-o').disabled = false;
             document.querySelector('#btnCancel-o').disabled = true;
-        }else if(snapshot.child('game-1').child('o-slot').val() != 'Empty' && snapshot.child('game-1').child('o-slot').val() != user_email){
+        }else if(snapshot.child(roomid).child('o-slot').val() != 'Empty' && snapshot.child(roomid).child('o-slot').val() != user_email){
             document.querySelector('#btnJoin-o').disabled = true;
             document.querySelector('#btnCancel-o').disabled = true;
-        }else if(snapshot.child('game-1').child('o-slot').val() == user_email){
+        }else if(snapshot.child(roomid).child('o-slot').val() == user_email){
             document.querySelector('#btnJoin-o').disabled = true;
             document.querySelector('#btnCancel-o').disabled = false;
             document.querySelector('#btnJoin-x').disabled = true;
@@ -156,13 +199,13 @@ ref_game.on('value', snapshot => {
             document.getElementById('btnCancel-∆').disabled = true;
         }
 
-        if(snapshot.child('game-1').child('◻-slot').val() == 'Empty' && snapshot.child('game-1').child('x-slot').val() != user_email && snapshot.child('game-1').child('o-slot').val() != user_email && snapshot.child('game-1').child('∆-slot').val() != user_email){
+        if(snapshot.child(roomid).child('◻-slot').val() == 'Empty' && snapshot.child(roomid).child('x-slot').val() != user_email && snapshot.child(roomid).child('o-slot').val() != user_email && snapshot.child(roomid).child('∆-slot').val() != user_email){
             document.querySelector('#btnJoin-◻').disabled = false;
             document.querySelector('#btnCancel-◻').disabled = true;
-        }else if(snapshot.child('game-1').child('◻-slot').val() != 'Empty' && snapshot.child('game-1').child('◻-slot').val() != user_email){
+        }else if(snapshot.child(roomid).child('◻-slot').val() != 'Empty' && snapshot.child(roomid).child('◻-slot').val() != user_email){
             document.querySelector('#btnJoin-◻').disabled = true;
             document.querySelector('#btnCancel-◻').disabled = true;
-        }else if(snapshot.child('game-1').child('◻-slot').val() == user_email){
+        }else if(snapshot.child(roomid).child('◻-slot').val() == user_email){
             document.querySelector('#btnJoin-◻').disabled = true;
             document.querySelector('#btnCancel-◻').disabled = false;
             document.querySelector('#btnJoin-x').disabled = true;
@@ -173,13 +216,13 @@ ref_game.on('value', snapshot => {
             document.getElementById('btnCancel-∆').disabled = true;
         }
 
-        if(snapshot.child('game-1').child('∆-slot').val() == 'Empty' && snapshot.child('game-1').child('x-slot').val() != user_email && snapshot.child('game-1').child('◻-slot').val() != user_email && snapshot.child('game-1').child('o-slot').val() != user_email){
+        if(snapshot.child(roomid).child('∆-slot').val() == 'Empty' && snapshot.child(roomid).child('x-slot').val() != user_email && snapshot.child(roomid).child('◻-slot').val() != user_email && snapshot.child(roomid).child('o-slot').val() != user_email){
             document.querySelector('#btnJoin-∆').disabled = false;
             document.querySelector('#btnCancel-∆').disabled = true;
-        }else if(snapshot.child('game-1').child('∆-slot').val() != 'Empty' && snapshot.child('game-1').child('∆-slot').val() != user_email){
+        }else if(snapshot.child(roomid).child('∆-slot').val() != 'Empty' && snapshot.child(roomid).child('∆-slot').val() != user_email){
             document.querySelector('#btnJoin-∆').disabled = true;
             document.querySelector('#btnCancel-∆').disabled = true;
-        }else if(snapshot.child('game-1').child('∆-slot').val() == user_email){
+        }else if(snapshot.child(roomid).child('∆-slot').val() == user_email){
             document.querySelector('#btnJoin-∆').disabled = true;
             document.querySelector('#btnCancel-∆').disabled = false;
             document.querySelector('#btnJoin-x').disabled = true;
@@ -197,36 +240,36 @@ ref_game.on('value', snapshot => {
         });
     }
     
-    if(snapshot.child('game-1').child('table').exists()){
+    if(snapshot.child(roomid).child('table').exists()){
         tableCols.forEach(col => {
-            let col_val = snapshot.child('game-1').child('table').child(col.id).val();
+            let col_val = snapshot.child(roomid).child('table').child(col.id).val();
             col.innerHTML = `<button type="button" class="display-4 btn btn-white w-100" style="height: 4rem;"> ${col_val} </button>`;
         });
     }
 
-    if(!snapshot.child('game-1').child('o-slot').exists()){
-        ref_game.child('game-1').update({
-            ['o-slot']: 'Empty',
-        });
-    }
+    // if(!snapshot.child(roomid).child('o-slot').exists()){
+    //     ref_game.child(roomid).update({
+    //         ['o-slot']: 'Empty',
+    //     });
+    // }
 
-    if(!snapshot.child('game-1').child('x-slot').exists()){
-        ref_game.child('game-1').update({
-            ['x-slot']: 'Empty',
-        });
-    }
+    // if(!snapshot.child(roomid).child('x-slot').exists()){
+    //     ref_game.child(roomid).update({
+    //         ['x-slot']: 'Empty',
+    //     });
+    // }
     
-    if(!snapshot.child('game-1').child('◻-slot').exists()){
-        ref_game.child('game-1').update({
-            ['◻-slot']: 'Empty',
-        });
-    }
+    // if(!snapshot.child(roomid).child('◻-slot').exists()){
+    //     ref_game.child(roomid).update({
+    //         ['◻-slot']: 'Empty',
+    //     });
+    // }
 
-    if(!snapshot.child('game-1').child('∆-slot').exists()){
-        ref_game.child('game-1').update({
-            ['∆-slot']: 'Empty',
-        });
-    }
+    // if(!snapshot.child(roomid).child('∆-slot').exists()){
+    //     ref_game.child(roomid).update({
+    //         ['∆-slot']: 'Empty',
+    //     });
+    // }
     getGameInfo(snapshot);
 });
 
@@ -239,44 +282,65 @@ function getGameInfo(snapshot) {
 
     snapshot.forEach((data) => {
         const gameInfos = data.val();
+        console.log('gameInfos')
+        console.log(gameInfos)
+        console.log('gameInfos')
         Object.keys(gameInfos).forEach(key => {
             switch (key) {
                 case 'user-x-email':
+                    if(gameInfos['1 room-id'] == roomid){
+                    console.log(gameInfos['key']+' yasssss' + roomid)
                     player1 = gameInfos[key];
                     document.getElementById('inputPlayer-x').value = gameInfos[key];
                     document.querySelector('#btnJoin-x').disabled = true;
-                    console.log(gameInfos[key]+' test')
-                    break;
+                    console.log(gameInfos['user-x-email']+' testx' + roomid)
+                    break;}
+                    else{
+                        break
+                    }
+                    
                 case 'user-o-email':
+                    if(gameInfos['1 room-id'] == roomid){
                     player2 = gameInfos[key];
                     document.getElementById('inputPlayer-o').value = gameInfos[key];
                     document.querySelector('#btnJoin-o').disabled = true;
                     console.log(gameInfos[key]+' test')
-                    break;
+                    break;}
+                    else{
+                        break
+                    }
                 case 'user-◻-email':
+                    if(gameInfos['1 room-id'] == roomid){
                     player3 = gameInfos[key];
                     document.getElementById('inputPlayer-◻').value = gameInfos[key];
                     document.querySelector('#btnJoin-◻').disabled = true;
                     console.log(gameInfos[key]+' test')
-                    break;
+                    break;}
+                    else{
+                        break
+                    }
                 case 'user-∆-email':
+                    if(gameInfos['1 room-id'] == roomid){
                     player4 = gameInfos[key];
                     document.getElementById('inputPlayer-∆').value = gameInfos[key];
                     document.querySelector('#btnJoin-∆').disabled = true;
                     console.log(gameInfos[key]+' test')
-                    break;
+                    break;}
+                    else{
+                        break
+                    }
                     
             }
         })
     });
 
-    var gameStatus_exists = snapshot.child('game-1').child('GameStatus').exists();
+    var gameStatus_exists = snapshot.child(roomid).child('GameStatus').exists();
     if(gameStatus_exists){
-        var gameStatus = snapshot.child('game-1').child('GameStatus').val();
+        var gameStatus = snapshot.child(roomid).child('GameStatus').val();
         if(gameStatus == 'Playing'){
             btnCancels.forEach(btnCancel => btnCancel.disabled = true);
             
-            var turn = snapshot.child('game-1').child('Turn').val();
+            var turn = snapshot.child(roomid).child('Turn').val();
             if(turn == "X"){
                 let L_turn = turn.toLowerCase();
                 let L_currentPlayer = currentPlayer.toLowerCase();
@@ -365,9 +429,9 @@ function getGameInfo(snapshot) {
                 col.removeEventListener('click', add_s_toCol);
                 col.removeEventListener('click', add_t_toCol);
             });
-            if(snapshot.child('game-1').child('GameResult').val() == 'X'){
+            if(snapshot.child(roomid).child('GameResult').val() == 'X'){
                 document.getElementById('GameStatus-text').innerHTML = "Winner: X";
-                if(snapshot.child('game-1').child('x-slot').val() == user_email){
+                if(snapshot.child(roomid).child('x-slot').val() == user_email){
                     ref_userdata.once('value', userData => {
                         var user_score_1 = userData.child(user_uid).val() + 3;
                         ref_userdata.update({
@@ -377,9 +441,9 @@ function getGameInfo(snapshot) {
                     });
                 }
             }
-            else if(snapshot.child('game-1').child('GameResult').val() == 'O'){
+            else if(snapshot.child(roomid).child('GameResult').val() == 'O'){
                 document.getElementById('GameStatus-text').innerHTML = "Winner: O";
-                if(snapshot.child('game-1').child('o-slot').val() == user_email){
+                if(snapshot.child(roomid).child('o-slot').val() == user_email){
                     ref_userdata.once('value', userData => {
                         var user_score_2 = userData.child(user_uid).val() + 3;
                         console.log(user_score_2);
@@ -391,9 +455,9 @@ function getGameInfo(snapshot) {
                     });
                 }
             }
-            else if(snapshot.child('game-1').child('GameResult').val() == '◻'){
+            else if(snapshot.child(roomid).child('GameResult').val() == '◻'){
                 document.getElementById('GameStatus-text').innerHTML = "Winner: ◻";
-                if(snapshot.child('game-1').child('◻-slot').val() == user_email){
+                if(snapshot.child(roomid).child('◻-slot').val() == user_email){
                     ref_userdata.once('value', userData => {
                         var user_score_3 = userData.child(user_uid).val() + 3;
                         console.log(user_score_3);
@@ -405,9 +469,9 @@ function getGameInfo(snapshot) {
                     });
                 }
             }
-            else if(snapshot.child('game-1').child('GameResult').val() == '∆'){
+            else if(snapshot.child(roomid).child('GameResult').val() == '∆'){
                 document.getElementById('GameStatus-text').innerHTML = "Winner: ∆";
-                if(snapshot.child('game-1').child('∆-slot').val() == user_email){
+                if(snapshot.child(roomid).child('∆-slot').val() == user_email){
                     ref_userdata.once('value', userData => {
                         var user_score_4 = userData.child(user_uid).val() + 3;
                         console.log(user_score_4);
@@ -419,7 +483,7 @@ function getGameInfo(snapshot) {
                     });
                 }
             }
-            else if(snapshot.child('game-1').child('GameResult').val() == 'draw'){
+            else if(snapshot.child(roomid).child('GameResult').val() == 'draw'){
                 document.getElementById('GameStatus-text').innerHTML = "GAME DRAW";
                 ref_userdata.once('value', userData => {
                     var user_score_draw = userData.child(user_uid).val() + 1;
@@ -449,20 +513,21 @@ function cancelJoin(event) {
         const btnCancelID = event.currentTarget.getAttribute('id');
         const player = btnCancelID[btnCancelID.length - 1];
         currentPlayer = player;
+        console.log(roomid + "remove")
         const playerForm = document.getElementById(`inputPlayer-${player}`);
         if (playerForm.value && playerForm.value === currentUser.email) {
             //Delete player from database
             let tmpID = `user-${player}-id`;
             let tmpEmail = `user-${player}-email`;
             let tmpStatus = `user-${player}-status`;
-            ref_game.child('game-1').child(tmpID).remove();
-            ref_game.child('game-1').child(tmpEmail).remove();
-            ref_game.child('game-1').child(tmpStatus).remove();
+            ref_game.child(roomid).child(tmpID).remove();
+            ref_game.child(roomid).child(tmpEmail).remove();
+            ref_game.child(roomid).child(tmpStatus).remove();
             console.log(`delete on id: ${currentUser.uid}`);
             document.querySelector(`#btnJoin-${player}`).disabled = false;
         }
     }
-    ref_game.child('game-1').update({
+    ref_game.child(roomid).update({
         [`${currentPlayer}-slot`]: 'Empty',
     });
 }
@@ -475,12 +540,12 @@ const tableCols = document.querySelectorAll('.table-col');
 
 
 function StartGame(event) {
-    ref_game.child('game-1').update({
+    ref_game.child(roomid).update({
         ['GameStatus']: 'Playing',
         ['Turn']:"X",
     });
     tableCols.forEach((col => {
-        ref_game.child('game-1').child('table').update({
+        ref_game.child(roomid).child('table').update({
             [col.id]:"",
         });
     }));
@@ -488,34 +553,34 @@ function StartGame(event) {
 
 
 function EndGame(event) {
-    ref_game.child('game-1').child('GameStatus').remove();
-    ref_game.child('game-1').child('Turn').remove();
-    ref_game.child('game-1').child('table').remove();
-    ref_game.child('game-1').child('GameResult').remove();
+    ref_game.child(roomid).child('GameStatus').remove();
+    ref_game.child(roomid).child('Turn').remove();
+    ref_game.child(roomid).child('table').remove();
+    ref_game.child(roomid).child('GameResult').remove();
 }
 
 function add_X_toCol(event){
     var col_val = '';
     var game_result = '';
-    ref_game.child('game-1').once('value', snapshot => {
+    ref_game.child(roomid).once('value', snapshot => {
         col_val = snapshot.child('table').child(event.currentTarget.id).val();
     });
     if(col_val == ''){
-        ref_game.child('game-1').child('table').update({
+        ref_game.child(roomid).child('table').update({
             [event.currentTarget.id]:"X",
         });
         game_result = gameResult();
         if(game_result == 'X'){
-            ref_game.child('game-1').update({
+            ref_game.child(roomid).update({
                 ['GameResult']:"X",
                 ['GameStatus']: 'Finish',
             });
         }else if (game_result == 'no'){
-            ref_game.child('game-1').update({
+            ref_game.child(roomid).update({
                 ['Turn']:"O",
             });
         }else if (game_result == 'draw'){
-            ref_game.child('game-1').update({
+            ref_game.child(roomid).update({
                 ['GameResult']:"draw",
                 ['GameStatus']: 'Finish',
             });
@@ -526,25 +591,25 @@ function add_X_toCol(event){
 function add_O_toCol(event){
     var col_val = '';
     var game_result = '';
-    ref_game.child('game-1').child('table').once('value', snapshot => {
+    ref_game.child(roomid).child('table').once('value', snapshot => {
         col_val = snapshot.child(event.currentTarget.id).val();
     });
     if(col_val == ''){
-        ref_game.child('game-1').child('table').update({
+        ref_game.child(roomid).child('table').update({
             [event.currentTarget.id]:"O",
         });
         game_result = gameResult();
         if(game_result == 'O'){
-            ref_game.child('game-1').update({
+            ref_game.child(roomid).update({
                 ['GameResult']:"O",
                 ['GameStatus']: 'Finish',
             });
         }else if (game_result == 'no'){
-            ref_game.child('game-1').update({
+            ref_game.child(roomid).update({
                 ['Turn']:"◻",
             });
         }else if (game_result == 'draw'){
-            ref_game.child('game-1').update({
+            ref_game.child(roomid).update({
                 ['GameResult']:"draw",
                 ['GameStatus']: 'Finish',
             });
@@ -555,25 +620,25 @@ function add_O_toCol(event){
 function add_s_toCol(event){
     var col_val = '';
     var game_result = '';
-    ref_game.child('game-1').child('table').once('value', snapshot => {
+    ref_game.child(roomid).child('table').once('value', snapshot => {
         col_val = snapshot.child(event.currentTarget.id).val();
     });
     if(col_val == ''){
-        ref_game.child('game-1').child('table').update({
+        ref_game.child(roomid).child('table').update({
             [event.currentTarget.id]:"◻",
         });
         game_result = gameResult();
         if(game_result == '◻'){
-            ref_game.child('game-1').update({
+            ref_game.child(roomid).update({
                 ['GameResult']:"◻",
                 ['GameStatus']: 'Finish',
             });
         }else if (game_result == 'no'){
-            ref_game.child('game-1').update({
+            ref_game.child(roomid).update({
                 ['Turn']:"∆",
             });
         }else if (game_result == 'draw'){
-            ref_game.child('game-1').update({
+            ref_game.child(roomid).update({
                 ['GameResult']:"draw",
                 ['GameStatus']: 'Finish',
             });
@@ -584,25 +649,25 @@ function add_s_toCol(event){
 function add_t_toCol(event){
     var col_val = '';
     var game_result = '';
-    ref_game.child('game-1').child('table').once('value', snapshot => {
+    ref_game.child(roomid).child('table').once('value', snapshot => {
         col_val = snapshot.child(event.currentTarget.id).val();
     });
     if(col_val == ''){
-        ref_game.child('game-1').child('table').update({
+        ref_game.child(roomid).child('table').update({
             [event.currentTarget.id]:"∆",
         });
         game_result = gameResult();
         if(game_result == '∆'){
-            ref_game.child('game-1').update({
+            ref_game.child(roomid).update({
                 ['GameResult']:"∆",
                 ['GameStatus']: 'Finish',
             });
         }else if (game_result == 'no'){
-            ref_game.child('game-1').update({
+            ref_game.child(roomid).update({
                 ['Turn']:"X",
             });
         }else if (game_result == 'draw'){
-            ref_game.child('game-1').update({
+            ref_game.child(roomid).update({
                 ['GameResult']:"draw",
                 ['GameStatus']: 'Finish',
             });
@@ -614,7 +679,7 @@ function gameResult(){
     var this_turn_symbol = '';
     var result = '';
     var col_val_empty = 0;
-    ref_game.child('game-1').once('value', snapshot => {
+    ref_game.child(roomid).once('value', snapshot => {
         snapshot.child('table').forEach(col => {
             if(col.val() == ''){
                 col_val_empty++;
@@ -662,6 +727,8 @@ function gameResult(){
     return result;
 }
 
+
+
 // const pageAccessedByReload = (
 //     (window.performance.navigation && window.performance.navigation.type === 1) ||
 //       window.performance
@@ -671,9 +738,9 @@ function gameResult(){
         
 // );
 // if(pageAccessedByReload){
-//     ref_game.child('game-1').remove();
-//     ref_game.child('game-1').update({[`o-slot`]:"Empty",});
-//     ref_game.child('game-1').update({[`x-slot`]:"Empty",});
+//     ref_game.child(roomid).remove();
+//     ref_game.child(roomid).update({[`o-slot`]:"Empty",});
+//     ref_game.child(roomid).update({[`x-slot`]:"Empty",});
 
 
 // }
