@@ -11,12 +11,17 @@ const loginItems = document.querySelectorAll('.logged-in');
 var roomid ;
 const btnHost = document.querySelectorAll('.btn-host');
 btnHost.forEach(btnHost => btnHost.addEventListener('click', createroom));
+const Hostpage = document.querySelectorAll('.room');
 // const btnJoinhost = document.querySelectorAll('.btn-joinhost');
 // btnJoinhost.forEach(btnJoinhost => btnJoinhost.addEventListener('click', joinroom));
 // const btnjoinform = document.querySelector('.room-code');
 // btnjoinform.addEventListener('click', joinroom)
 // btnjoinform.forEach(btnjoinform => btnjoinform.addEventListener('click', joinroom));
-
+function showcreate(){
+    Hostpage.forEach(item => item.style.display = 'inline-block');
+    loginItems.forEach(item => item.style.display = 'inline-block');
+    logoutItems.forEach(item => item.style.display = 'none');
+}
 
 
 function joinroom(){
@@ -31,7 +36,7 @@ function joinroom(){
    document.querySelector('#room-text').innerHTML = roomid;
 
     setupUI(user)
-
+    showcreate()
 }
 
 function createroom(){
@@ -64,6 +69,7 @@ function createroom(){
    var user = firebase.auth().currentUser;
    document.querySelector('#room-text').innerHTML = roomid;
     setupUI(user)
+    showcreate()
    return result;
    
 }
@@ -115,10 +121,12 @@ function setupUI(user) {
         user_email = user.email;
         loginItems.forEach(item => item.style.display = 'inline-block');
         logoutItems.forEach(item => item.style.display = 'none');
+        Hostpage.forEach(item => item.style.display = 'none');
     } else {
         document.querySelector('#user-profile-name').innerHTML = '';
         loginItems.forEach(item => item.style.display = 'none');
         logoutItems.forEach(item => item.style.display = 'inline-block');
+        Hostpage.forEach(item => item.style.display = 'none');
     }
 }
 
