@@ -11,16 +11,19 @@ const loginItems = document.querySelectorAll('.logged-in');
 var roomid ;
 const btnHost = document.querySelectorAll('.btn-host');
 btnHost.forEach(btnHost => btnHost.addEventListener('click', createroom));
-const btnJoinhost = document.querySelectorAll('.btn-joinhost');
-btnJoinhost.forEach(btnJoinhost => btnJoinhost.addEventListener('click', joinroom));
+// const btnJoinhost = document.querySelectorAll('.btn-joinhost');
+// btnJoinhost.forEach(btnJoinhost => btnJoinhost.addEventListener('click', joinroom));
+// const btnjoinform = document.querySelector('.room-code');
+// btnjoinform.addEventListener('click', joinroom)
+// btnjoinform.forEach(btnjoinform => btnjoinform.addEventListener('click', joinroom));
 
 
 
 function joinroom(){
-    console.log("123")
-
+    var room_id = '';
+    room_id = document.getElementById('input-room-id').value;
     console.log(ref_game.value)
-    roomid='48027';
+    roomid= room_id;
     ref_game.once('value' , snapshot => {
     getGameInfo(snapshot);
     });
