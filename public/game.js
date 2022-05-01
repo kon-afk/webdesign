@@ -15,8 +15,8 @@ console.log(ref_game);
 
 function showcreate(){
     btnHost.forEach(item => item.style.display = 'inline-block');
-    loginItems.forEach(item => item.style.display = 'none');
-    logoutItems.forEach(item => item.style.display = 'inline-block');
+    loginItems.forEach(item => item.style.display = 'inline-block');
+    logoutItems.forEach(item => item.style.display = 'none');
 }
 
 function setupUI(user) {
