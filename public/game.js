@@ -5,6 +5,7 @@ btnJoins.forEach(btnJoin => btnJoin.addEventListener('click', joinGame));
 var currentPlayer;
 var user_email;
 var user_uid;
+var player_count;
 const logoutItems = document.querySelectorAll('.logged-out');
 const loginItems = document.querySelectorAll('.logged-in');
 // var roomid = createroom();
@@ -125,7 +126,7 @@ function setupUI(user) {
     } else {
         document.querySelector('#user-profile-name').innerHTML = '';
         loginItems.forEach(item => item.style.display = 'none');
-        logoutItems.forEach(item => item.style.display = 'inline-block');
+        logoutItems.forEach(item => item.style.display = 'block');
         Hostpage.forEach(item => item.style.display = 'none');
     }
 }
@@ -142,10 +143,12 @@ function joinGame(event) {
             //add player into database
             let tmpID = `user-${player}-id`;
             let tmpEmail = `user-${player}-email`;
+            let tmpName = `user-${player}-name`;
             let tmpStatus = `user-${player}-status`;
             ref_game.child(roomid).update({
                 [tmpID]: currentUser.uid,
                 [tmpEmail]: currentUser.email,
+                [tmpName]: currentUser.displayName,
                 [tmpStatus]: 'Ready',
             });
             console.log(currentUser.email + ' added. ');
@@ -298,29 +301,29 @@ function getGameInfo(snapshot) {
         console.log('gameInfos')
         Object.keys(gameInfos).forEach(key => {
             switch (key) {
-                case 'user-x-email':
+                case 'user-x-name':
                     if(gameInfos['1 room-id'] == roomid){
-                    console.log(gameInfos['key']+' yasssss' + roomid)
-                    player1 = gameInfos[key];
-                    document.getElementById('inputPlayer-x').value = gameInfos[key];
-                    document.querySelector('#btnJoin-x').disabled = true;
-                    console.log(gameInfos['user-x-email']+' testx' + roomid)
+                        console.log(gameInfos['key']+' yasssss' + roomid)
+                        player1 = gameInfos[key];
+                        document.getElementById('inputPlayer-x').value = gameInfos[key];
+                        document.querySelector('#btnJoin-x').disabled = true;
+                        console.log(gameInfos['user-x-name']+' testx' + roomid)
                     break;}
                     else{
                         break
                     }
                     
-                case 'user-o-email':
+                case 'user-o-name':
                     if(gameInfos['1 room-id'] == roomid){
-                    player2 = gameInfos[key];
-                    document.getElementById('inputPlayer-o').value = gameInfos[key];
-                    document.querySelector('#btnJoin-o').disabled = true;
-                    console.log(gameInfos[key]+' test')
+                        player2 = gameInfos[key];
+                        document.getElementById('inputPlayer-o').value = gameInfos[key];
+                        document.querySelector('#btnJoin-o').disabled = true;
+                        console.log(gameInfos[key]+' test')
                     break;}
                     else{
                         break
                     }
-                case 'user-◻-email':
+                case 'user-◻-name':
                     if(gameInfos['1 room-id'] == roomid){
                     player3 = gameInfos[key];
                     document.getElementById('inputPlayer-◻').value = gameInfos[key];
@@ -330,7 +333,7 @@ function getGameInfo(snapshot) {
                     else{
                         break
                     }
-                case 'user-∆-email':
+                case 'user-∆-name':
                     if(gameInfos['1 room-id'] == roomid){
                     player4 = gameInfos[key];
                     document.getElementById('inputPlayer-∆').value = gameInfos[key];
@@ -526,13 +529,15 @@ function cancelJoin(event) {
         currentPlayer = player;
         console.log(roomid + "remove")
         const playerForm = document.getElementById(`inputPlayer-${player}`);
-        if (playerForm.value && playerForm.value === currentUser.email) {
+        if (playerForm.value && playerForm.value === currentUser.displayName) {
             //Delete player from database
             let tmpID = `user-${player}-id`;
             let tmpEmail = `user-${player}-email`;
+            let tmpName = `user-${player}-name`;
             let tmpStatus = `user-${player}-status`;
             ref_game.child(roomid).child(tmpID).remove();
             ref_game.child(roomid).child(tmpEmail).remove();
+            ref_game.child(roomid).child(tmpName).remove();
             ref_game.child(roomid).child(tmpStatus).remove();
             console.log(`delete on id: ${currentUser.uid}`);
             document.querySelector(`#btnJoin-${player}`).disabled = false;
