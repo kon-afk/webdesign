@@ -26,19 +26,56 @@ function showcreate(){
     logoutItems.forEach(item => item.style.display = 'none');
 }
 
+const joinFeedback = document.querySelector('#feedback-msg-join');
+const joinModal = new bootstrap.Modal(document.querySelector('#modal-join'));
+
 function joinroom(){
     var room_id = '';
     room_id = document.getElementById('input-room-id').value;
     console.log(ref_game.value)
-    roomid= room_id;
-    ref_game.once('value' , snapshot => {
-    getGameInfo(snapshot);
-    });
-    var user = firebase.auth().currentUser;
-   document.querySelector('#room-text').innerHTML = roomid;
+    
+    if(room_id == ''){
+        joinFeedback.style = `color:crimson`;
+        joinFeedback.innerText = `invalid Code`;
+        
+    }else{
+        roomid= room_id;
+        ref_game.once('value' , snapshot => {
+            var time = 0;
+            const gameInfos = snapshot.val();
+            console.log("ggg")
+            console.log(Object.keys(gameInfos))
+            console.log('ggg')
+            try {
+                    Object.keys(gameInfos).forEach(key => {
+                            if(key == roomid){
+                            console.log(key)
+                                ref_game.once('value' , snapshot => {
+                                    getGameInfo(snapshot);
+                                    });
+                                    var user = firebase.auth().currentUser;
+                                    document.querySelector('#room-text').innerHTML = roomid;
+                                    setupUI(user)
+                                    showcreate()
+                                    joinFeedback.style = `color:green`;
+                                    joinFeedback.innerText = `joined room`;
+                                    time ++;
+                                    throw 'Break';
+                            }
+                            else{
+                            console.log(key)
+                            time ++;
+                                joinFeedback.style = `color:crimson`;
+                                joinFeedback.innerText = `room not found`;
+                                }
+                                console.log(time)
+                });
+              } catch (e) {
+                if (e !== 'Break') throw e
+              }
 
-    setupUI(user)
-    showcreate()
+        });
+    }
 }
 
 function createroom(){
