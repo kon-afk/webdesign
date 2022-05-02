@@ -1,5 +1,6 @@
 const ref_game = firebase.database().ref('Game-data');
 const ref_userdata = firebase.database().ref('UserData');
+//const ref_username = firebase.database().ref('UserName');
 const btnJoins = document.querySelectorAll('.btn-join');
 btnJoins.forEach(btnJoin => btnJoin.addEventListener('click', joinGame));
 var currentPlayer;
@@ -18,12 +19,12 @@ const Hostpage = document.querySelectorAll('.room');
 // const btnjoinform = document.querySelector('.room-code');
 // btnjoinform.addEventListener('click', joinroom)
 // btnjoinform.forEach(btnjoinform => btnjoinform.addEventListener('click', joinroom));
+
 function showcreate(){
     Hostpage.forEach(item => item.style.display = 'block');
     loginItems.forEach(item => item.style.display = 'none');
     logoutItems.forEach(item => item.style.display = 'none');
 }
-
 
 function joinroom(){
     var room_id = '';
@@ -79,12 +80,17 @@ function setupUI(user) {
     if (user) {
         ref_userdata.once('value' , snapshot => {
             if(snapshot.child(user.uid).exists()){
-                document.querySelector('#user-profile-name').innerHTML = user.displayName + " " + user.email+" ("+ snapshot.child(user.uid).val() +")";
-            }else{
-                ref_userdata.update({
-                    [user.uid]:0,
+                document.querySelector('#user-profile-name').innerHTML = user.displayName + " Score : " + snapshot.child(user.uid).child('Score').val() +"";
+                ref_userdata.child(user.uid).update({
+                    ['Name']: user.displayName,
                 });
-                document.querySelector('#user-profile-name').innerHTML = user.email+" (0)";
+            }else{
+                ref_userdata.child(user.uid).update({
+                    ['Score']:0,
+                });
+                document.querySelector('#user-profile-name').innerHTML = user.displyname +" (0)";
+                location.reload()
+                location.reload()
             }
             user_uid = user.uid;
         });
@@ -170,7 +176,8 @@ ref_game.on('value', snapshot => {
 
 
     if(!snapshot.child(roomid).child('GameStatus').exists()){
-        if(status_1.val() == "Ready" && status_2.val() == "Ready"&& status_3.val() == "Ready"&& status_4.val() == "Ready"){
+        //if(status_1.val() == "Ready" && status_2.val() == "Ready"&& status_3.val() == "Ready"&& status_4.val() == "Ready"){
+        if (true){
             btnStartGame.disabled = false;
             document.getElementById('GameStatus-text').innerHTML = 'Click START GAME';
         }
@@ -288,6 +295,8 @@ ref_game.on('value', snapshot => {
 });
 
 function getGameInfo(snapshot) {
+    var user = firebase.auth().currentUser;
+
     document.getElementById('inputPlayer-x').value = '';
     document.getElementById('inputPlayer-o').value = '';
     document.getElementById('inputPlayer-◻').value = '';
@@ -444,69 +453,69 @@ function getGameInfo(snapshot) {
                 col.removeEventListener('click', add_t_toCol);
             });
             if(snapshot.child(roomid).child('GameResult').val() == 'X'){
-                document.getElementById('GameStatus-text').innerHTML = "Winner: X";
+                document.getElementById('GameStatus-text').innerHTML = "Winner: X Point +10";
                 if(snapshot.child(roomid).child('x-slot').val() == user_email){
                     ref_userdata.once('value', userData => {
-                        var user_score_1 = userData.child(user_uid).val() + 3;
-                        ref_userdata.update({
-                            [user_uid]: user_score_1,
+                        var user_score_1 = userData.child(user_uid).child('Score').val() + 10;
+                        ref_userdata.child(user_uid).update({
+                            ['Score']: user_score_1,
                         });
-                        document.querySelector('#user-profile-name').innerHTML = user_email +" ("+ user_score_1 +")";
+                        document.querySelector('#user-profile-name').innerHTML = user.displayName + " Score : " + user_score_1;
                     });
                 }
             }
             else if(snapshot.child(roomid).child('GameResult').val() == 'O'){
-                document.getElementById('GameStatus-text').innerHTML = "Winner: O";
+                document.getElementById('GameStatus-text').innerHTML = "Winner: O Point +10";
                 if(snapshot.child(roomid).child('o-slot').val() == user_email){
                     ref_userdata.once('value', userData => {
-                        var user_score_2 = userData.child(user_uid).val() + 3;
+                        var user_score_2 = userData.child(user_uid).child('Score').val() + 10;
                         console.log(user_score_2);
-                        ref_userdata.update({
-                            [user_uid]: user_score_2,
+                        ref_userdata.child(user_uid).update({
+                            ['Score']: user_score_2,
                         });
                         console.log(user_score_2);
-                        document.querySelector('#user-profile-name').innerHTML = user_email +" ("+ user_score_2 +")";
+                        document.querySelector('#user-profile-name').innerHTML = user.displayName + " Score : " + user_score_2;
                     });
                 }
             }
             else if(snapshot.child(roomid).child('GameResult').val() == '◻'){
-                document.getElementById('GameStatus-text').innerHTML = "Winner: ◻";
+                document.getElementById('GameStatus-text').innerHTML = "Winner: ◻ Point +10";
                 if(snapshot.child(roomid).child('◻-slot').val() == user_email){
                     ref_userdata.once('value', userData => {
-                        var user_score_3 = userData.child(user_uid).val() + 3;
+                        var user_score_3 = userData.child(user_uid).child('Score').val() + 10;
                         console.log(user_score_3);
-                        ref_userdata.update({
-                            [user_uid]: user_score_3,
+                        ref_userdata.child(user_uid).update({
+                            ['Score']: user_score_3,
                         });
                         console.log(user_score_3);
-                        document.querySelector('#user-profile-name').innerHTML = user_email +" ("+ user_score_3 +")";
+                        document.querySelector('#user-profile-name').innerHTML = user.displayName + " Score : " + user_score_3;
                     });
                 }
             }
             else if(snapshot.child(roomid).child('GameResult').val() == '∆'){
-                document.getElementById('GameStatus-text').innerHTML = "Winner: ∆";
+                document.getElementById('GameStatus-text').innerHTML = "Winner: ∆ Point +10";
                 if(snapshot.child(roomid).child('∆-slot').val() == user_email){
                     ref_userdata.once('value', userData => {
-                        var user_score_4 = userData.child(user_uid).val() + 3;
+                        var user_score_4 = userData.child(user_uid).child('Score').val() + 10;
                         console.log(user_score_4);
-                        ref_userdata.update({
-                            [user_uid]: user_score_4,
+                        ref_userdata.child(user_uid).update({
+                            ['Score']: user_score_4,
                         });
                         console.log(user_score_4);
-                        document.querySelector('#user-profile-name').innerHTML = user_email +" ("+ user_score_4 +")";
+                        document.querySelector('#user-profile-name').innerHTML = user.displayName + " Score : " +  user_score_4 ;
                     });
                 }
             }
             else if(snapshot.child(roomid).child('GameResult').val() == 'draw'){
                 document.getElementById('GameStatus-text').innerHTML = "GAME DRAW";
                 ref_userdata.once('value', userData => {
-                    var user_score_draw = userData.child(user_uid).val() + 1;
+                    var user_score_draw = userData.child(user_uid).child('Score').val() + 0;
                     console.log(user_score_draw);
                     ref_userdata.update({
-                        [user_uid]: user_score_draw,
+                        ['Score']: user_score_draw,
                     });
                     console.log(user_score_draw);
-                    document.querySelector('#user-profile-name').innerHTML = user_email +" ("+ user_score_draw +")";
+                    document.querySelector('#user-profile-name').innerHTML = user.displayName + " Score : " +  user_score_draw ;
                 });
             }
             btnEndGame.disabled = false;
@@ -745,6 +754,65 @@ function gameResult(){
 
 
 
+//Getleaderboard()
+
+function Getleaderboard() {
+    
+    ref_userdata.once('value', snapshot => {
+        snapshot.forEach( (data) => {
+            console.log(data)
+            var user_name = data.child('Name').val()
+            var user_score = data.child('Score').val()
+            var table = document.getElementById("leader_body");
+            var row = table.insertRow(-1);
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            cell1.innerHTML = user_name;
+            cell2.innerHTML = user_score;
+        });
+        sortTable()
+    });
+}
+
+
+function sortTable() {
+    var table, rows, switching, i, x, y, shouldSwitch;
+    table = document.getElementById("leader_board");
+    switching = true;
+    /*Make a loop that will continue until
+    no switching has been done:*/
+    while (switching) {
+      //start by saying: no switching is done:
+      switching = false;
+      rows = table.rows;
+      /*Loop through all table rows (except the
+      first, which contains table headers):*/
+      for (i = 1; i < (rows.length - 1); i++) {
+        //start by saying there should be no switching:
+        shouldSwitch = false;
+        /*Get the two elements you want to compare,
+        one from current row and one from the next:*/
+        x = rows[i].getElementsByTagName("TD")[1];
+        y = rows[i + 1].getElementsByTagName("TD")[1];
+        //check if the two rows should switch place:
+        if (Number(x.innerHTML) < Number(y.innerHTML)) {
+          //if so, mark as a switch and break the loop:
+          shouldSwitch = true;
+          break;
+        }
+      }
+      if (shouldSwitch) {
+        /*If a switch has been marked, make the switch
+        and mark that a switch has been done:*/
+        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+        switching = true;
+      }
+    }
+  }
+
+
+Getleaderboard()
+
 // const pageAccessedByReload = (
 //     (window.performance.navigation && window.performance.navigation.type === 1) ||
 //       window.performance
@@ -759,4 +827,5 @@ function gameResult(){
 //     ref_game.child(roomid).update({[`x-slot`]:"Empty",});
 
 
-// }
+// } 
+

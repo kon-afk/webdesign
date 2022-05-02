@@ -61,18 +61,23 @@ p{
 .display-name {
     margin: 0;
     font-size: 1.2rem;
+    font-weight: 600;
     
 }
 
-.scoreboard-con{
+.invisible-button{
+    display: none;
+}
+
+.leaderboard-con{
     width: 60%;
 }
 
-.scoreboard {
+.leaderboard {
     width: 100%;
 }
 
-.scoreboard tbody{
+.leaderboard tbody{
     height: 200px;
     overflow-y: auto;
     
@@ -84,17 +89,17 @@ tbody::-webkit-scrollbar {
     display: none;
 }
 
-.scoreboard tr{
+.leaderboard tr{
     display: flex;
     flex-wrap: wrap;
 }
 
-.scoreboard td{
+.leaderboard td{
     flex: 1;
 
 }
 
-.scoreboard th {
+.leaderboard th {
     flex: 1 1 calc(100% / 3);
 }
 
