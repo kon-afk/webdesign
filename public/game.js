@@ -213,8 +213,9 @@ ref_game.on('value', snapshot => {
 
 
     if(!snapshot.child(roomid).child('GameStatus').exists()){
-        //if(status_1.val() == "Ready" && status_2.val() == "Ready"&& status_3.val() == "Ready"&& status_4.val() == "Ready"){
-        if (true){
+        if(status_1.val() == "Ready" && status_2.val() == "Ready"&& status_3.val() == "Ready"&& status_4.val() == "Ready"){
+        // if (true){
+            console.log('gameeee')
             btnStartGame.disabled = false;
             document.getElementById('GameStatus-text').innerHTML = 'Click START GAME';
         }
