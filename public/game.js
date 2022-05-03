@@ -70,37 +70,46 @@ function joinroom(){
 
 function qjoinroom(){
     roomid = '';
-    ref_game.once('value', snapshot => {
-        snapshot.forEach( (data) => {
+    try {
+        ref_game.once('value', snapshot => {
+            snapshot.forEach( (data) => {
+        
+                var user_1 = data.child('o-slot').val()
+                var user_2 = data.child('x-slot').val()
+                var user_3 = data.child('◻-slot').val()
+                var user_4 = data.child('∆-slot').val()
+                var room = data.child('1 room-id').val()
+                var player = [user_1, user_2, user_3, user_4];
+                if((user_1 != 'Empty' || user_2 != 'Empty' || user_3 != 'Empty' || user_4 != 'Empty') && player.includes("Empty")){
+                    roomid= room;
+                    return;
+                }
+            });
+            ref_game.once('value' , snapshot => {
+                const gameInfos = snapshot.val();
+                Object.keys(gameInfos).forEach(key => {
+                                if(key == roomid){
+                                    ref_game.once('value' , snapshot => {
+                                        getGameInfo(snapshot);
+                                        });
+                                        var user = firebase.auth().currentUser;
+                                        setupUI(user)
+                                        showcreate()
+                                        
+                                }
+                    });
+            });
+            throw 'Break';
+        });
+        
+    } catch (e) {
+        if (e !== 'Break') throw e
+    }
     
-            var user_1 = data.child('o-slot').val()
-            var user_2 = data.child('x-slot').val()
-            var user_3 = data.child('◻-slot').val()
-            var user_4 = data.child('∆-slot').val()
-            var room = data.child('1 room-id').val()
-            var player = [user_1, user_2, user_3, user_4];
-            if((user_1 != 'Empty' || user_2 != 'Empty' || user_3 != 'Empty' || user_4 != 'Empty') && player.includes("Empty")){
-                roomid= room;
-                alert("Room Found");
-                return;
-            }
-        });
-        ref_game.once('value' , snapshot => {
-            const gameInfos = snapshot.val();
-            Object.keys(gameInfos).forEach(key => {
-                            if(key == roomid){
-                                ref_game.once('value' , snapshot => {
-                                    getGameInfo(snapshot);
-                                    });
-                                    var user = firebase.auth().currentUser;
-                                    setupUI(user)
-                                    showcreate()
-                            }
-                });
-        });
-    });
     if(roomid == ''){
         alert("Room not Found");
+    }else{
+        alert("Room Found");
     }
     
 }
