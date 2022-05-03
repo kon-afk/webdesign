@@ -34,7 +34,10 @@
 
   <h1 class="display-1 text-center">Tic-Tac-Top</h1>
   <h4 class="display-5 text-center">The battle royale tic-tac-toe game</h4>
+
+  <!--Player Slot-->
   <div class="container room">
+
     <form class="form-inline row">
       <div class="form-group mb-2 row col-10">
         <label for="inputPlayer-x" class="col-form-label col-2">Players X:</label>
@@ -74,7 +77,7 @@
       </div>
     </form>
 
-        <form class="form-inline row">
+    <form class="form-inline row">
       <div class="form-group mb-2 row col-10">
         <label for="inputPlayer-∆" class="col-form-label col-2">Players ∆:</label>
         <div class="col-10">
@@ -86,14 +89,22 @@
         <button type="button" id="btnCancel-∆" class="btn btn-secondary btn-cancel-join-game">Cancel</button>
       </div>
     </form>
+
   </div>
+  <!--Player Slot-->
+
+  <!--Game button-->
   <div class="container d-flex justify-content-center mb-2">
     <button type="button" id="btnStartGame" class="btn btn-success mx-1 room" disabled>START GAME</button>
     <button type="button" id="btnTerminateGame" class="btn btn-warning mx-1 room" disabled>END GAME</button>
   </div>
+  
+  <!-- Game Status -->
   <div class="container  d-flex justify-content-center mb-2">
     <h4 class="room" id="GameStatus-text">Waiting for player...</h4>
   </div>
+
+  <!-- Room ID -->
   <div class="container  d-flex justify-content-center mb-2">
     <h4 class="room" id="">Room ID :</h4>
     <h4 class="room" id="room-text">-</h4>
