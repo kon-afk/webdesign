@@ -1,6 +1,5 @@
 const ref_game = firebase.database().ref('Game-data');
 const ref_userdata = firebase.database().ref('UserData');
-//const ref_username = firebase.database().ref('UserName');
 const btnJoins = document.querySelectorAll('.btn-join');
 btnJoins.forEach(btnJoin => btnJoin.addEventListener('click', joinGame));
 var currentPlayer;
@@ -9,16 +8,10 @@ var user_uid;
 var player_count;
 const logoutItems = document.querySelectorAll('.logged-out');
 const loginItems = document.querySelectorAll('.logged-in');
-// var roomid = createroom();
 var roomid ;
 const btnHost = document.querySelectorAll('.btn-host');
 btnHost.forEach(btnHost => btnHost.addEventListener('click', createroom));
 const Hostpage = document.querySelectorAll('.room');
-// const btnJoinhost = document.querySelectorAll('.btn-joinhost');
-// btnJoinhost.forEach(btnJoinhost => btnJoinhost.addEventListener('click', joinroom));
-// const btnjoinform = document.querySelector('.room-code');
-// btnjoinform.addEventListener('click', joinroom)
-// btnjoinform.forEach(btnjoinform => btnjoinform.addEventListener('click', joinroom));
 
 function showcreate(){
     Hostpage.forEach(item => item.style.display = 'block');
@@ -32,7 +25,6 @@ const joinModal = new bootstrap.Modal(document.querySelector('#modal-join'));
 function joinroom(){
     var room_id = '';
     room_id = document.getElementById('input-room-id').value;
-    console.log(ref_game.value)
     
     if(room_id == ''){
         joinFeedback.style = `color:crimson`;
@@ -43,13 +35,9 @@ function joinroom(){
         ref_game.once('value' , snapshot => {
             var time = 0;
             const gameInfos = snapshot.val();
-            // console.log("ggg")
-            // console.log(Object.keys(gameInfos))
-            // console.log('ggg')
             try {
                     Object.keys(gameInfos).forEach(key => {
                             if(key == roomid){
-                            // console.log(key)
                                 ref_game.once('value' , snapshot => {
                                     getGameInfo(snapshot);
                                     });
@@ -63,12 +51,10 @@ function joinroom(){
                                     throw 'Break';
                             }
                             else{
-                            // console.log(key)
                             time ++;
                                 joinFeedback.style = `color:crimson`;
                                 joinFeedback.innerText = `room not found`;
                                 }
-                                console.log(time)
                 });
               } catch (e) {
                 if (e !== 'Break') throw e
@@ -79,7 +65,6 @@ function joinroom(){
 }
 
 function createroom(){
-   console.log(roomid);
     var result           = '';
     var characters       = '0123456789';
     var charactersLength = characters.length;
@@ -90,7 +75,6 @@ function createroom(){
    roomid=result;
    ref_game.once('value', snapshot => {
     snapshot.forEach( (data) => {
-        console.log('create data')
 
         var user_1 = data.child('o-slot').val()
         var user_2 = data.child('x-slot').val()
@@ -104,7 +88,6 @@ function createroom(){
     });
     sortTable()
 });
-//    roomid='24963';
     ref_game.once('value' , snapshot => {
         if(roomid){
             
@@ -118,9 +101,6 @@ function createroom(){
         }else{
     }
     });
-    
-
-   console.log(roomid);
    var user = firebase.auth().currentUser;
    document.querySelector('#room-text').innerHTML = roomid;
     setupUI(user)
@@ -192,7 +172,6 @@ function setupUI(user) {
 
 function joinGame(event) {
     const currentUser = firebase.auth().currentUser;
-    console.log('[Join] Current user:', currentUser);
     if (currentUser) {
         const btnJoinID = event.currentTarget.getAttribute('id');
         const player = btnJoinID[btnJoinID.length - 1];
@@ -210,14 +189,12 @@ function joinGame(event) {
                 [tmpName]: currentUser.displayName,
                 [tmpStatus]: 'Ready',
             });
-            console.log(currentUser.email + ' added. ');
             event.currentTarget.disabled = true;
         }
         ref_game.child(roomid).update({
             [`${currentPlayer}-slot`]: user_email,
         });
     }
-    console.log(`inputPlayer-${player}` + ' join ' + roomid)
 
 }
 
@@ -230,8 +207,6 @@ ref_game.on('value', snapshot => {
 
     if(!snapshot.child(roomid).child('GameStatus').exists()){
         if(status_1.val() == "Ready" && status_2.val() == "Ready"&& status_3.val() == "Ready"&& status_4.val() == "Ready"){
-        // if (true){
-            console.log('gameeee')
             btnStartGame.disabled = false;
             document.getElementById('GameStatus-text').innerHTML = 'Click START GAME';
         }
@@ -321,30 +296,6 @@ ref_game.on('value', snapshot => {
             col.innerHTML = `<button type="button" class="display-4 btn btn-white w-100" style="height: 4rem;"> ${col_val} </button>`;
         });
     }
-
-    // if(!snapshot.child(roomid).child('o-slot').exists()){
-    //     ref_game.child(roomid).update({
-    //         ['o-slot']: 'Empty',
-    //     });
-    // }
-
-    // if(!snapshot.child(roomid).child('x-slot').exists()){
-    //     ref_game.child(roomid).update({
-    //         ['x-slot']: 'Empty',
-    //     });
-    // }
-    
-    // if(!snapshot.child(roomid).child('◻-slot').exists()){
-    //     ref_game.child(roomid).update({
-    //         ['◻-slot']: 'Empty',
-    //     });
-    // }
-
-    // if(!snapshot.child(roomid).child('∆-slot').exists()){
-    //     ref_game.child(roomid).update({
-    //         ['∆-slot']: 'Empty',
-    //     });
-    // }
     getGameInfo(snapshot);
 });
 
@@ -363,11 +314,9 @@ function getGameInfo(snapshot) {
             switch (key) {
                 case 'user-x-name':
                     if(gameInfos['1 room-id'] == roomid){
-                        console.log(gameInfos['key']+' yasssss' + roomid)
                         player1 = gameInfos[key];
                         document.getElementById('inputPlayer-x').value = gameInfos[key];
                         document.querySelector('#btnJoin-x').disabled = true;
-                        console.log(gameInfos['user-x-name']+' testx' + roomid)
                     break;}
                     else{
                         break
@@ -378,7 +327,6 @@ function getGameInfo(snapshot) {
                         player2 = gameInfos[key];
                         document.getElementById('inputPlayer-o').value = gameInfos[key];
                         document.querySelector('#btnJoin-o').disabled = true;
-                        console.log(gameInfos[key]+' test')
                     break;}
                     else{
                         break
@@ -388,7 +336,6 @@ function getGameInfo(snapshot) {
                     player3 = gameInfos[key];
                     document.getElementById('inputPlayer-◻').value = gameInfos[key];
                     document.querySelector('#btnJoin-◻').disabled = true;
-                    console.log(gameInfos[key]+' test')
                     break;}
                     else{
                         break
@@ -398,7 +345,6 @@ function getGameInfo(snapshot) {
                     player4 = gameInfos[key];
                     document.getElementById('inputPlayer-∆').value = gameInfos[key];
                     document.querySelector('#btnJoin-∆').disabled = true;
-                    console.log(gameInfos[key]+' test')
                     break;}
                     else{
                         break
@@ -520,11 +466,9 @@ function getGameInfo(snapshot) {
                 if(snapshot.child(roomid).child('o-slot').val() == user_email){
                     ref_userdata.once('value', userData => {
                         var user_score_2 = userData.child(user_uid).child('Score').val() + 10;
-                        console.log(user_score_2);
                         ref_userdata.child(user_uid).update({
                             ['Score']: user_score_2,
                         });
-                        console.log(user_score_2);
                         document.querySelector('#user-profile-name').innerHTML = user.displayName + " Score : " + user_score_2;
                     });
                 }
@@ -534,11 +478,9 @@ function getGameInfo(snapshot) {
                 if(snapshot.child(roomid).child('◻-slot').val() == user_email){
                     ref_userdata.once('value', userData => {
                         var user_score_3 = userData.child(user_uid).child('Score').val() + 10;
-                        console.log(user_score_3);
                         ref_userdata.child(user_uid).update({
                             ['Score']: user_score_3,
                         });
-                        console.log(user_score_3);
                         document.querySelector('#user-profile-name').innerHTML = user.displayName + " Score : " + user_score_3;
                     });
                 }
@@ -548,11 +490,9 @@ function getGameInfo(snapshot) {
                 if(snapshot.child(roomid).child('∆-slot').val() == user_email){
                     ref_userdata.once('value', userData => {
                         var user_score_4 = userData.child(user_uid).child('Score').val() + 10;
-                        console.log(user_score_4);
                         ref_userdata.child(user_uid).update({
                             ['Score']: user_score_4,
                         });
-                        console.log(user_score_4);
                         document.querySelector('#user-profile-name').innerHTML = user.displayName + " Score : " +  user_score_4 ;
                     });
                 }
@@ -561,11 +501,9 @@ function getGameInfo(snapshot) {
                 document.getElementById('GameStatus-text').innerHTML = "GAME DRAW";
                 ref_userdata.once('value', userData => {
                     var user_score_draw = userData.child(user_uid).child('Score').val() + 0;
-                    console.log(user_score_draw);
                     ref_userdata.update({
                         ['Score']: user_score_draw,
                     });
-                    console.log(user_score_draw);
                     document.querySelector('#user-profile-name').innerHTML = user.displayName + " Score : " +  user_score_draw ;
                 });
             }
@@ -582,12 +520,10 @@ btnCancels.forEach((btnCancel) => {
 
 function cancelJoin(event) {
     const currentUser = firebase.auth().currentUser;
-    console.log("ca")
     if (currentUser) {
         const btnCancelID = event.currentTarget.getAttribute('id');
         const player = btnCancelID[btnCancelID.length - 1];
         currentPlayer = player;
-        console.log(roomid + "remove")
         const playerForm = document.getElementById(`inputPlayer-${player}`);
         if (playerForm.value && playerForm.value === currentUser.displayName) {
             //Delete player from database
@@ -599,7 +535,6 @@ function cancelJoin(event) {
             ref_game.child(roomid).child(tmpEmail).remove();
             ref_game.child(roomid).child(tmpName).remove();
             ref_game.child(roomid).child(tmpStatus).remove();
-            console.log(`delete on id: ${currentUser.uid}`);
             document.querySelector(`#btnJoin-${player}`).disabled = false;
         }
     }
@@ -811,7 +746,6 @@ function Getleaderboard() {
     
     ref_userdata.once('value', snapshot => {
         snapshot.forEach( (data) => {
-            console.log(data)
             var user_name = data.child('Name').val()
             var user_score = data.child('Score').val()
             var table = document.getElementById("leader_body");
@@ -863,20 +797,4 @@ function sortTable() {
 
 
 Getleaderboard()
-
-// const pageAccessedByReload = (
-//     (window.performance.navigation && window.performance.navigation.type === 1) ||
-//       window.performance
-//         .getEntriesByType('navigation')
-//         .map((nav) => nav.type)
-//         .includes('reload')
-        
-// );
-// if(pageAccessedByReload){
-//     ref_game.child(roomid).remove();
-//     ref_game.child(roomid).update({[`o-slot`]:"Empty",});
-//     ref_game.child(roomid).update({[`x-slot`]:"Empty",});
-
-
-// } 
 
