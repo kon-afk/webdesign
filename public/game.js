@@ -32,8 +32,12 @@ function joinroom(){
     
     if(room_id == ''){
         joinFeedback.style = `color:crimson`;
-        joinFeedback.innerText = `invalid Code`;
+        joinFeedback.innerText = `Please insert Code`;
         
+    }else if(room_id.length != 5){
+        joinFeedback.style = `color:crimson`;
+        joinFeedback.innerText = `invalid Code`;
+
     }else{
         roomid= room_id;
         ref_game.once('value' , snapshot => {
@@ -105,6 +109,7 @@ function qjoinroom(){
         alert("Room not Found");
     }else{
         alert("Room Found");
+        document.querySelector('#room-text').innerHTML = roomid;
     }
     
 }
