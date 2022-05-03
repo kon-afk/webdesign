@@ -69,6 +69,7 @@ function joinroom(){
 }
 
 function qjoinroom(){
+    roomid = '';
     ref_game.once('value', snapshot => {
         snapshot.forEach( (data) => {
     
@@ -80,6 +81,8 @@ function qjoinroom(){
             var player = [user_1, user_2, user_3, user_4];
             if((user_1 != 'Empty' || user_2 != 'Empty' || user_3 != 'Empty' || user_4 != 'Empty') && player.includes("Empty")){
                 roomid= room;
+                alert("Room Found");
+                return;
             }
         });
         ref_game.once('value' , snapshot => {
@@ -96,6 +99,10 @@ function qjoinroom(){
                 });
         });
     });
+    if(roomid == ''){
+        alert("Room not Found");
+    }
+    
 }
 
 
