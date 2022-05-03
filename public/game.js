@@ -12,6 +12,7 @@ var roomid ;
 const btnHost = document.querySelectorAll('.btn-host');
 btnHost.forEach(btnHost => btnHost.addEventListener('click', createroom));
 const Hostpage = document.querySelectorAll('.room');
+const title = document.querySelectorAll('.title-text');
 
 const btnQHost = document.querySelectorAll('.btn-qjoin');
 btnQHost.forEach(btnQHost => btnQHost.addEventListener('click', qjoinroom));
@@ -19,6 +20,7 @@ btnQHost.forEach(btnQHost => btnQHost.addEventListener('click', qjoinroom));
 
 function showcreate(){
     Hostpage.forEach(item => item.style.display = 'block');
+    title.forEach(item => item.style.display = 'none');
     loginItems.forEach(item => item.style.display = 'none');
     logoutItems.forEach(item => item.style.display = 'none');
 }
@@ -108,7 +110,7 @@ function qjoinroom(){
     if(roomid == ''){
         alert("Room not Found");
     }else{
-        alert("Room Found");
+        alert("Join room");
         document.querySelector('#room-text').innerHTML = roomid;
     }
     
