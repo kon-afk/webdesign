@@ -374,14 +374,14 @@ ref_game.on('value', snapshot => {
         btnEndGame.disabled = true;
         tableCols.forEach(col => {
             col.disabled = true;
-            col.innerHTML = `<p class="display-4"></p>`;
+            col.innerHTML = `<p class="display-6"></p>`;
         });
     }
     
     if(snapshot.child(roomid).child('table').exists()){
         tableCols.forEach(col => {
             let col_val = snapshot.child(roomid).child('table').child(col.id).val();
-            col.innerHTML = `<button type="button" class="display-4 btn btn-white w-100" style="height: 4rem;"> ${col_val} </button>`;
+            col.innerHTML = `<button type="button" class="display-4 btn btn-white w-100" > ${col_val} </button>`;
         });
     }
     getGameInfo(snapshot);
