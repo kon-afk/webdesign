@@ -43,13 +43,13 @@ function joinroom(){
         ref_game.once('value' , snapshot => {
             var time = 0;
             const gameInfos = snapshot.val();
-            console.log("ggg")
-            console.log(Object.keys(gameInfos))
-            console.log('ggg')
+            // console.log("ggg")
+            // console.log(Object.keys(gameInfos))
+            // console.log('ggg')
             try {
                     Object.keys(gameInfos).forEach(key => {
                             if(key == roomid){
-                            console.log(key)
+                            // console.log(key)
                                 ref_game.once('value' , snapshot => {
                                     getGameInfo(snapshot);
                                     });
@@ -63,7 +63,7 @@ function joinroom(){
                                     throw 'Break';
                             }
                             else{
-                            console.log(key)
+                            // console.log(key)
                             time ++;
                                 joinFeedback.style = `color:crimson`;
                                 joinFeedback.innerText = `room not found`;
@@ -88,6 +88,22 @@ function createroom(){
  charactersLength));
    }
    roomid=result;
+   ref_game.once('value', snapshot => {
+    snapshot.forEach( (data) => {
+        console.log('create data')
+
+        var user_1 = data.child('o-slot').val()
+        var user_2 = data.child('x-slot').val()
+        var user_3 = data.child('◻-slot').val()
+        var user_4 = data.child('∆-slot').val()
+        var room = data.child('1 room-id').val()
+        if(user_1 == 'Empty' && user_2 == 'Empty' && user_3 == 'Empty' && user_4 == 'Empty'){
+            ref_game.child(room).remove()
+        }
+
+    });
+    sortTable()
+});
 //    roomid='24963';
     ref_game.once('value' , snapshot => {
         if(roomid){
@@ -343,9 +359,6 @@ function getGameInfo(snapshot) {
 
     snapshot.forEach((data) => {
         const gameInfos = data.val();
-        console.log('gameInfos')
-        console.log(gameInfos)
-        console.log('gameInfos')
         Object.keys(gameInfos).forEach(key => {
             switch (key) {
                 case 'user-x-name':
