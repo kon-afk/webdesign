@@ -70,7 +70,6 @@ function joinroom(){
 
 function qjoinroom(){
     roomid = '';
-    try {
         ref_game.once('value', snapshot => {
             snapshot.forEach( (data) => {
         
@@ -99,12 +98,8 @@ function qjoinroom(){
                                 }
                     });
             });
-            throw 'Break';
         });
         
-    } catch (e) {
-        if (e !== 'Break') throw e
-    }
     
     if(roomid == ''){
         alert("Room not Found");
