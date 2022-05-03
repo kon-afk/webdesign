@@ -13,6 +13,10 @@ const btnHost = document.querySelectorAll('.btn-host');
 btnHost.forEach(btnHost => btnHost.addEventListener('click', createroom));
 const Hostpage = document.querySelectorAll('.room');
 
+const btnQHost = document.querySelectorAll('.btn-qjoin');
+btnQHost.forEach(btnQHost => btnQHost.addEventListener('click', qjoinroom));
+
+
 function showcreate(){
     Hostpage.forEach(item => item.style.display = 'block');
     loginItems.forEach(item => item.style.display = 'none');
@@ -64,6 +68,37 @@ function joinroom(){
     }
 }
 
+function qjoinroom(){
+    ref_game.once('value', snapshot => {
+        snapshot.forEach( (data) => {
+    
+            var user_1 = data.child('o-slot').val()
+            var user_2 = data.child('x-slot').val()
+            var user_3 = data.child('◻-slot').val()
+            var user_4 = data.child('∆-slot').val()
+            var room = data.child('1 room-id').val()
+            var player = [user_1, user_2, user_3, user_4];
+            if((user_1 != 'Empty' || user_2 != 'Empty' || user_3 != 'Empty' || user_4 != 'Empty') && player.includes("Empty")){
+                roomid= room;
+            }
+        });
+        ref_game.once('value' , snapshot => {
+            const gameInfos = snapshot.val();
+            Object.keys(gameInfos).forEach(key => {
+                            if(key == roomid){
+                                ref_game.once('value' , snapshot => {
+                                    getGameInfo(snapshot);
+                                    });
+                                    var user = firebase.auth().currentUser;
+                                    setupUI(user)
+                                    showcreate()
+                            }
+                });
+        });
+    });
+}
+
+
 function createroom(){
     var result           = '';
     var characters       = '0123456789';
@@ -86,7 +121,6 @@ function createroom(){
         }
 
     });
-    sortTable()
 });
     ref_game.once('value' , snapshot => {
         if(roomid){
@@ -128,34 +162,72 @@ function setupUI(user) {
             user_uid = user.uid;
         });
         ref_game.once('value' , snapshot => {
-            if(snapshot.child(roomid).child('x-slot').val() == 'Empty'){
-                document.getElementById('btnJoin-x').disabled = false;
-                document.getElementById('btnCancel-x').disabled = true;
-            }else if(snapshot.child(roomid).child('x-slot').val() ==  user.email){
-                document.getElementById('btnJoin-x').disabled = true;
-                document.getElementById('btnCancel-x').disabled = false;
-            }
-            if(snapshot.child(roomid).child('o-slot').val() == 'Empty'){
-                document.getElementById('btnJoin-o').disabled = false;
-                document.getElementById('btnCancel-o').disabled = true;
-            }else if(snapshot.child(roomid).child('o-slot').val() == user.email){
-                document.getElementById('btnJoin-o').disabled = true;
-                document.getElementById('btnCancel-o').disabled = false;
-
-            }
-            if(snapshot.child(roomid).child('◻-slot').val() == 'Empty'){
-                document.getElementById('btnJoin-◻').disabled = false;
-                document.getElementById('btnCancel-◻').disabled = true;
-            }else if(snapshot.child(roomid).child('◻-slot').val() == user.email){
+            if(snapshot.child(roomid).child('x-slot').val() == 'Empty' && snapshot.child(roomid).child('o-slot').val() != user_email && snapshot.child(roomid).child('◻-slot').val() != user_email && snapshot.child(roomid).child('∆-slot').val() != user_email){
+                document.querySelector('#btnJoin-x').disabled = false;
+                document.querySelector('#btnCancel-x').disabled = true;
+            }else if(snapshot.child(roomid).child('x-slot').val() != 'Empty' && snapshot.child(roomid).child('x-slot').val() != user_email){
+                document.querySelector('#btnJoin-x').disabled = true;
+                document.querySelector('#btnCancel-x').disabled = true;
+            }else if(snapshot.child(roomid).child('x-slot').val() == user_email){
+                document.querySelector('#btnJoin-x').disabled = true;
+                document.querySelector('#btnCancel-x').disabled = false;
+                document.querySelector('#btnJoin-o').disabled = true;
+                document.querySelector('#btnCancel-o').disabled = true;
                 document.getElementById('btnJoin-◻').disabled = true;
-                document.getElementById('btnCancel-◻').disabled = false;
-            }
-            if(snapshot.child(roomid).child('∆-slot').val() == 'Empty'){
-                document.getElementById('btnJoin-∆').disabled = false;
-                document.getElementById('btnCancel-∆').disabled = true;
-            }else if(snapshot.child(roomid).child('∆-slot').val() == user.email){
+                document.getElementById('btnCancel-◻').disabled = true;
                 document.getElementById('btnJoin-∆').disabled = true;
-                document.getElementById('btnCancel-∆').disabled = false;
+                document.getElementById('btnCancel-∆').disabled = true;
+            }
+    
+            if(snapshot.child(roomid).child('o-slot').val() == 'Empty' && snapshot.child(roomid).child('x-slot').val() != user_email && snapshot.child(roomid).child('◻-slot').val() != user_email && snapshot.child(roomid).child('∆-slot').val() != user_email){
+                document.querySelector('#btnJoin-o').disabled = false;
+                document.querySelector('#btnCancel-o').disabled = true;
+            }else if(snapshot.child(roomid).child('o-slot').val() != 'Empty' && snapshot.child(roomid).child('o-slot').val() != user_email){
+                document.querySelector('#btnJoin-o').disabled = true;
+                document.querySelector('#btnCancel-o').disabled = true;
+            }else if(snapshot.child(roomid).child('o-slot').val() == user_email){
+                document.querySelector('#btnJoin-o').disabled = true;
+                document.querySelector('#btnCancel-o').disabled = false;
+                document.querySelector('#btnJoin-x').disabled = true;
+                document.querySelector('#btnCancel-x').disabled = true;
+                document.getElementById('btnJoin-◻').disabled = true;
+                document.getElementById('btnCancel-◻').disabled = true;
+                document.getElementById('btnJoin-∆').disabled = true;
+                document.getElementById('btnCancel-∆').disabled = true;
+            }
+    
+            if(snapshot.child(roomid).child('◻-slot').val() == 'Empty' && snapshot.child(roomid).child('x-slot').val() != user_email && snapshot.child(roomid).child('o-slot').val() != user_email && snapshot.child(roomid).child('∆-slot').val() != user_email){
+                document.querySelector('#btnJoin-◻').disabled = false;
+                document.querySelector('#btnCancel-◻').disabled = true;
+            }else if(snapshot.child(roomid).child('◻-slot').val() != 'Empty' && snapshot.child(roomid).child('◻-slot').val() != user_email){
+                document.querySelector('#btnJoin-◻').disabled = true;
+                document.querySelector('#btnCancel-◻').disabled = true;
+            }else if(snapshot.child(roomid).child('◻-slot').val() == user_email){
+                document.querySelector('#btnJoin-◻').disabled = true;
+                document.querySelector('#btnCancel-◻').disabled = false;
+                document.querySelector('#btnJoin-x').disabled = true;
+                document.querySelector('#btnCancel-x').disabled = true;
+                document.getElementById('btnJoin-o').disabled = true;
+                document.getElementById('btnCancel-o').disabled = true;
+                document.getElementById('btnJoin-∆').disabled = true;
+                document.getElementById('btnCancel-∆').disabled = true;
+            }
+    
+            if(snapshot.child(roomid).child('∆-slot').val() == 'Empty' && snapshot.child(roomid).child('x-slot').val() != user_email && snapshot.child(roomid).child('◻-slot').val() != user_email && snapshot.child(roomid).child('o-slot').val() != user_email){
+                document.querySelector('#btnJoin-∆').disabled = false;
+                document.querySelector('#btnCancel-∆').disabled = true;
+            }else if(snapshot.child(roomid).child('∆-slot').val() != 'Empty' && snapshot.child(roomid).child('∆-slot').val() != user_email){
+                document.querySelector('#btnJoin-∆').disabled = true;
+                document.querySelector('#btnCancel-∆').disabled = true;
+            }else if(snapshot.child(roomid).child('∆-slot').val() == user_email){
+                document.querySelector('#btnJoin-∆').disabled = true;
+                document.querySelector('#btnCancel-∆').disabled = false;
+                document.querySelector('#btnJoin-x').disabled = true;
+                document.querySelector('#btnCancel-x').disabled = true;
+                document.getElementById('btnJoin-◻').disabled = true;
+                document.getElementById('btnCancel-◻').disabled = true;
+                document.getElementById('btnJoin-o').disabled = true;
+                document.getElementById('btnCancel-o').disabled = true;
             }
         });
         user_email = user.email;
