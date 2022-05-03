@@ -541,7 +541,7 @@ function getGameInfo(snapshot) {
                 col.removeEventListener('click', add_t_toCol);
             });
             if(snapshot.child(roomid).child('GameResult').val() == 'X'){
-                document.getElementById('GameStatus-text').innerHTML = "Winner: X Point +10";
+                document.getElementById('GameStatus-text').innerHTML = "Winner: X Points +10";
                 if(snapshot.child(roomid).child('x-slot').val() == user_email){
                     ref_userdata.once('value', userData => {
                         var user_score_1 = userData.child(user_uid).child('Score').val() + 10;
@@ -553,7 +553,7 @@ function getGameInfo(snapshot) {
                 }
             }
             else if(snapshot.child(roomid).child('GameResult').val() == 'O'){
-                document.getElementById('GameStatus-text').innerHTML = "Winner: O Point +10";
+                document.getElementById('GameStatus-text').innerHTML = "Winner: O Points +10";
                 if(snapshot.child(roomid).child('o-slot').val() == user_email){
                     ref_userdata.once('value', userData => {
                         var user_score_2 = userData.child(user_uid).child('Score').val() + 10;
@@ -565,7 +565,7 @@ function getGameInfo(snapshot) {
                 }
             }
             else if(snapshot.child(roomid).child('GameResult').val() == '◻'){
-                document.getElementById('GameStatus-text').innerHTML = "Winner: ◻ Point +10";
+                document.getElementById('GameStatus-text').innerHTML = "Winner: ◻ Points +10";
                 if(snapshot.child(roomid).child('◻-slot').val() == user_email){
                     ref_userdata.once('value', userData => {
                         var user_score_3 = userData.child(user_uid).child('Score').val() + 10;
@@ -577,7 +577,7 @@ function getGameInfo(snapshot) {
                 }
             }
             else if(snapshot.child(roomid).child('GameResult').val() == '∆'){
-                document.getElementById('GameStatus-text').innerHTML = "Winner: ∆ Point +10";
+                document.getElementById('GameStatus-text').innerHTML = "Winner: ∆ Points +10";
                 if(snapshot.child(roomid).child('∆-slot').val() == user_email){
                     ref_userdata.once('value', userData => {
                         var user_score_4 = userData.child(user_uid).child('Score').val() + 10;

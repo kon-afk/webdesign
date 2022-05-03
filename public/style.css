@@ -151,6 +151,7 @@ tbody::-webkit-scrollbar {
     text-align: center;
     background-color: #F5F5F5;
     border: 2px solid black;
+    font-weight: bold;
 }
 
 
