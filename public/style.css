@@ -169,9 +169,9 @@ tbody::-webkit-scrollbar {
     }
 
     .btn-join, .btn-cancel-join-game{
-        padding: 0px 5px;
+        padding: 5px 5px;
         width: 60%;
-
+        font-size: 00.8em;
     }
 
     .w-100{
@@ -189,7 +189,7 @@ tbody::-webkit-scrollbar {
     }
 
     .name_input{
-        font-size: 1em;
+        font-size: 0.8em;
         padding-left: 0px;
         padding-right: 0px;
     }

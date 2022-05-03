@@ -446,6 +446,7 @@ function getGameInfo(snapshot) {
     if(gameStatus_exists){
         var gameStatus = snapshot.child(roomid).child('GameStatus').val();
         if(gameStatus == 'Playing'){
+            btnStartGame.disabled = true;
             btnCancels.forEach(btnCancel => btnCancel.disabled = true);
             
             var turn = snapshot.child(roomid).child('Turn').val();
