@@ -129,9 +129,80 @@ tbody::-webkit-scrollbar {
 .w-100{
     padding: 0;
     margin: 0;
+    font-size: 2em;
 }
 
 .table-table{
     width: 50%;
-    height: 50%;
+    margin-bottom: 50px;
+}
+
+.btn-primary.disabled, .btn-primary:disabled {
+    color: #fff;
+    background-color: #636568;
+}
+
+.role{
+    font-size: 4em;
+    text-align: center;
+}
+
+.name_input{
+    text-align: center;
+    background-color: #F5F5F5;
+    border: 2px solid black;
+}
+
+
+.btn-join, .btn-cancel-join-game{
+    padding: 8px 0px;
+    width: 40%;
+    overflow: auto;
+    font-size: 1em;
+}
+
+@media all and (max-width:500px) {
+
+    .role{
+        font-size: 2em;
+        text-align: center;
+    }
+
+    .btn-join, .btn-cancel-join-game{
+        padding: 0px 5px;
+        width: 60%;
+
+    }
+
+    .w-100{
+        font-size: 1em;
+    }
+
+    .table-table{
+        width: 100%;
+        margin-bottom: 50px;
+    }
+
+    .cell{
+        height: 30px;
+        border: 1px solid black;
+    }
+
+    .name_input{
+        font-size: 1em;
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+}
+
+@media all and (max-width:768px) {
+
+    .table-table{
+        width: 60%;
+        margin-bottom: 50px;
+    }
+
+    
+
+
 }

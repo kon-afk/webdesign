@@ -32,63 +32,65 @@
     </div>
   </nav>
 
-  <h1 class="display-1 text-center">Tic-Tac-Top</h1>
-  <h4 class="display-5 text-center">The battle royale tic-tac-toe game</h4>
+  <h1 class="display-1 text-center logged-in">Tic-Tac-Top</h1>
+  <h4 class="display-5 text-center logged-in">The battle royale tic-tac-toe game</h4>
 
   <!--Player Slot-->
   <div class="container room">
 
-    <form class="form-inline row">
-      <div class="form-group mb-2 row col-10">
-        <label for="inputPlayer-x" class="col-form-label col-2">Players X:</label>
-        <div class="col-10">
-          <input readonly type="text" class="form-control" id="inputPlayer-x" placeholder="Player X">
+    <div class="row d-flex justify-content-center">
+    <form class="form-inline col-3">
+      <div class="form-group mb-2 row">
+        <label for="inputPlayer-x" class="col-form-label col-12 role">X</label>
+        <div class="col-12">
+          <input readonly type="text" class="form-control name_input" id="inputPlayer-x" placeholder="Player X">
         </div>
       </div>
-      <div class="form-group mb-2 col-2">
-        <button type="button" id="btnJoin-x" class="btn btn-primary btn-join">Join</button>
-        <button type="button" id="btnCancel-x" class="btn btn-secondary btn-cancel-join-game">Cancel</button>
+      <div class="form-group mb-2 row d-sm-flex justify-content-between">
+        <button type="button" id="btnJoin-x" class="btn btn-primary btn-join col-4 m-2">Join</button>
+        <button type="button" id="btnCancel-x" class="btn btn-secondary btn-cancel-join-game col-4 m-2">Cancel</button>
       </div>
     </form>
 
-    <form class="form-inline row">
-      <div class="form-group mb-2 row col-10">
-        <label for="inputPlayer-o" class="col-form-label col-2">Players O:</label>
-        <div class="col-10">
-          <input readonly type="text" class="form-control" id="inputPlayer-o" placeholder="Player O">
+    <form class="form-inline col-3">
+      <div class="form-group mb-2 row">
+        <label for="inputPlayer-o" class="col-form-label col-12 role">O</label>
+        <div class="col-12">
+          <input readonly type="text" class="form-control name_input" id="inputPlayer-o" placeholder="Player O">
         </div>
       </div>
-      <div class="form-group mb-2 col-2">
-        <button type="button" id="btnJoin-o" class="btn btn-primary btn-join">Join</button>
-        <button type="button" id="btnCancel-o" class="btn btn-secondary btn-cancel-join-game">Cancel</button>
+      <div class="form-group mb-2 row d-sm-flex justify-content-between">
+        <button type="button" id="btnJoin-o" class="btn btn-primary btn-join col-4 m-2">Join</button>
+        <button type="button" id="btnCancel-o" class="btn btn-secondary btn-cancel-join-game col-4 m-2">Cancel</button>
       </div>
     </form>
 
-    <form class="form-inline row">
-      <div class="form-group mb-2 row col-10">
-        <label for="inputPlayer-◻" class="col-form-label col-2">Players ◻:</label>
-        <div class="col-10">
-          <input readonly type="text" class="form-control" id="inputPlayer-◻" placeholder="Player ◻">
+    <form class="form-inline col-3">
+      <div class="form-group mb-2 row ">
+        <label for="inputPlayer-◻" class="col-form-label col-12 role">◻</label>
+        <div class="col-12">
+          <input readonly type="text" class="form-control col-12 name_input " id="inputPlayer-◻" placeholder="Player ◻">
         </div>
       </div>
-      <div class="form-group mb-2 col-2">
-        <button type="button" id="btnJoin-◻" class="btn btn-primary btn-join">Join</button>
-        <button type="button" id="btnCancel-◻" class="btn btn-secondary btn-cancel-join-game">Cancel</button>
+      <div class="form-group mb-2 row d-sm-flex justify-content-between">
+        <button type="button" id="btnJoin-◻" class="btn btn-primary btn-join col-4 m-2">Join</button>
+        <button type="button" id="btnCancel-◻" class="btn btn-secondary btn-cancel-join-game col-4 m-2">Cancel</button>
       </div>
     </form>
 
-    <form class="form-inline row">
-      <div class="form-group mb-2 row col-10">
-        <label for="inputPlayer-∆" class="col-form-label col-2">Players ∆:</label>
-        <div class="col-10">
-          <input readonly type="text" class="form-control" id="inputPlayer-∆" placeholder="Player ∆">
+    <form class="form-inline col-3">
+      <div class="form-group mb-2 row ">
+        <label for="inputPlayer-∆" class="col-form-label col-12 role">∆</label>
+        <div class="col-12">
+          <input readonly type="text" class="form-control name_input" id="inputPlayer-∆" placeholder="Player ∆">
         </div>
       </div>
-      <div class="form-group mb-2 col-2">
-        <button type="button" id="btnJoin-∆" class="btn btn-primary btn-join">Join</button>
-        <button type="button" id="btnCancel-∆" class="btn btn-secondary btn-cancel-join-game">Cancel</button>
+      <div class="form-group mb-2 row d-sm-flex justify-content-between">
+        <button type="button" id="btnJoin-∆" class="btn btn-primary btn-join col-4 m-2">Join</button>
+        <button type="button" id="btnCancel-∆" class="btn btn-secondary btn-cancel-join-game col-4 m-2">Cancel</button>
       </div>
     </form>
+    </div>
 
   </div>
   <!--Player Slot-->
