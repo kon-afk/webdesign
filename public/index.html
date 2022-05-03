@@ -3,7 +3,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tic Tac Top</title>
+  <title>Tic-Tac-Top</title>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-analytics.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
@@ -19,10 +19,10 @@
     <div class="container-fluid">
       <a class="navbar-brand" href="index.html"><i class="bi bi-house-door-fill"></i> Tic-Tac-Top</a>
       <nav class="nav-right">
-        <button type="button" id="btnSignup" class="btn btn-outline-light  nav-button logged-out" data-bs-toggle="modal"
+        <!--<button type="button" id="btnSignup" class="btn btn-outline-light  nav-button logged-out" data-bs-toggle="modal"
           data-bs-target="#modal-signup"><i class="bi bi-person-plus-fill"></i>Sign up</button>
         <button type="button" id="btnLogin" class="btn btn-outline-light  nav-button logged-out" data-bs-toggle="modal"
-        data-bs-target="#modal-login"><i class="bi bi-box-arrow-in-right"></i>Login</button>
+        data-bs-target="#modal-login"><i class="bi bi-box-arrow-in-right"></i>Login</button>-->
         <span class="profile">
           <p id="user-profile-name" class="display-name" style="color: white"></p>
         </span>
@@ -32,8 +32,15 @@
     </div>
   </nav>
 
+  
+  <!-- Title -->
   <h1 class="display-1 text-center title-text">Tic-Tac-Top</h1>
-  <h4 class="display-5 text-center title-text">The battle royale tic-tac-toe game</h4>
+  <h4 class="display-5 text-center title-text m">The battle royale tic-tac-toe game</h4>
+
+  
+  
+
+  </div>
 
   <!--Player Slot-->
   <div class="container room">
@@ -113,36 +120,68 @@
   </div>
 
   <!-- MAIN PAGE -->
-  <div class="container logged-in">
-  <!-- LEADER BOARD -->
-  <div class="container d-flex justify-content-center">
-    <div class="container leaderboard-con logged-in ">
-      <p><button class="invisible-button" onclick="sortTable()">Sort</button></p>
-      <table id="leader_board" class="table leaderboard  table-ed text-center">
-        <thead >
-          <tr >
-            <th scope="col">Name</th>
-            <th scope="col">Score</th>
-          </tr>
-        </thead>
-        <tbody id="leader_body">
-        </tbody>
-      </table>
+  <div class="container ">
+
+    <!-- LEADER BOARD -->
+    <div class="container d-flex justify-content-center ">
+      <div class="container leaderboard-con logged-in">
+        <p><button class="invisible-button" onclick="sortTable()">Sort</button></p>
+        <table id="leader_board" class="table leaderboard  table-ed text-center">
+          <thead >
+            <tr >
+              <th scope="col">Name</th>
+              <th scope="col">Score</th>
+            </tr>
+          </thead>
+          <tbody id="leader_body">
+          </tbody>
+        </table>
+      </div>
     </div>
-  </div>
   
-  
+    <!-- MENU BUTTON -->
+    <div class="container-fluid">
+    <div class="container menu-button ">
+      <button type="button" id="Hostpage" class="btn btn-menu btn-host logged-in"><p class="display-4">CREATE ROOM</p></button>
+      <button type="button" id="btnJoinHost" class="btn btn-menu btn-joinhost logged-in" data-bs-toggle="modal"
+      data-bs-target="#modal-join"><p class="display-4">JOIN WITH CODE</p></button>
+      <button type="button" id="Hostpage" class="btn btn-menu btn-qjoin logged-in"><p class="display-4">QUICK JOIN</p></button>
 
-  <!-- MENU BUTTON -->
-  <div class="container-fluid">
-  <div class="container menu-button ">
-    <button type="button" id="Hostpage" class="btn btn-menu btn-host logged-in"><p class="display-4">CREATE ROOM</p></button>
-    <button type="button" id="btnJoinHost" class="btn btn-menu btn-joinhost logged-in" data-bs-toggle="modal"
-    data-bs-target="#modal-join"><p class="display-4">JOIN WITH CODE</p></button>
-    <button type="button" id="Hostpage" class="btn btn-menu btn-qjoin logged-in"><p class="display-4">QUICK JOIN</p></button>
+    </div>
 
   </div>
-  </div>
+
+  <!-- Sign in -->
+  <div class="container  mt-5">
+    <h6 class="display-6 text-center logged-out">Please Sign Up or Login  </h6>
+
+    <div class="row  d-flex  justify-content-center">
+      <form action="" class="signupform col-5 logged-out" id="login-form">
+        <div class="row d-flex justify-content-center mb-3">
+          <input type="email" class="form-control signup_input mb-3" id="input-email-login" placeholder="Email" required>
+          <br/>
+          <input type="password" class="form-control signup_input mb-3" id="input-password-login" placeholder="Password" required>
+          <p id="feedback-msg-signup"></p>
+          <button type="button" id="btnSignup" class="btn btn-menu btn-signup" data-bs-toggle="modal"
+          data-bs-target="#modal-signup"></i>Sign up</button>
+          <br>
+          <button type="submit" class="btn btn-menu btn-signup ">Login</button>
+        </div>
+        
+      </form>
+
+      
+      <!--<form action="" class="col-4" id="login-form">
+        <div class="mb-3">
+          <input type="email" class="form-control" id="input-email-login" placeholder="Email" required>
+          <br/>
+          <input type="password" class="form-control" id="input-password-login" placeholder="Password" required>
+          <p id="feedback-msg-login"></p>
+        </div>
+          <button type="submit" class="btn btn-primary">Log in</button>
+      </form>-->
+
+    </div>
   
   </div>
 

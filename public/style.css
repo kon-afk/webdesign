@@ -161,6 +161,47 @@ tbody::-webkit-scrollbar {
     font-size: 1em;
 }
 
+.signupform{
+    display: flex;
+    justify-content: center;
+}
+
+.btn-signup{
+    font-size: 2em;
+    width: 30%;
+    font-weight: bold;
+}
+
+.signup_input{
+    font-size: 2em;
+    width: 100%;
+}
+
+@media all and (max-width:1200px) {
+
+    .btn-signup{
+        font-size: 1.5em;
+        width: 50%;
+    }
+
+}
+
+@media all and (max-width:768px) {
+
+    .table-table{
+        width: 60%;
+        margin-bottom: 50px;
+        
+    }
+
+    .btn-signup{
+        font-size: 1em;
+        width: 50%;
+    }
+
+
+}
+
 @media all and (max-width:500px) {
 
     .role{
@@ -193,16 +234,16 @@ tbody::-webkit-scrollbar {
         padding-left: 0px;
         padding-right: 0px;
     }
-}
-
-@media all and (max-width:768px) {
-
-    .table-table{
-        width: 60%;
-        margin-bottom: 50px;
-    }
 
     
 
+    .signup_input{
+        font-size: 1em;
+        width: 100%;
+    }
 
 }
+
+
+
+
