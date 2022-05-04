@@ -187,10 +187,20 @@ tbody::-webkit-scrollbar {
 
 }
 
+@media all and (max-width:1000px) {
+
+    .table-table{
+        width: 70%;
+        margin-bottom: 50px;
+        
+    }
+
+}
+
 @media all and (max-width:768px) {
 
     .table-table{
-        width: 60%;
+        width: 70%;
         margin-bottom: 50px;
         
     }
@@ -236,7 +246,9 @@ tbody::-webkit-scrollbar {
         padding-right: 0px;
     }
 
-    
+    .leaderboard-con {
+        width: 70%;
+    }
 
     .signup_input{
         font-size: 1em;
